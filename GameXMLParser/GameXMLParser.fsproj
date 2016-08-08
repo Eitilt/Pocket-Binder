@@ -15,6 +15,7 @@
     <TargetFSharpCoreVersion>3.7.4.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Name>GameXMLParser</Name>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +36,16 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\GameXMLParser.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.Portable.FSharp.Targets" />
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Parser.fs" />
+    <None Include="Script.fsx" />
+    <Content Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
       <Name>FSharp.Core</Name>
@@ -42,19 +53,9 @@
       <HintPath>$(MSBuildExtensionsPath32)\..\Reference Assemblies\Microsoft\FSharp\.NETCore\$(TargetFSharpCoreVersion)\FSharp.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Parser.fs" />
-    <None Include="Script.fsx" />
-    <Content Include="packages.config" />
-  </ItemGroup>
   <PropertyGroup>
-    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>
+    <PostBuildEvent>fsformatting metadataFormat --generate --dllFiles "$(TargetPath)" --outDir "$(ProjectDir)doc" --layoutRoots "$(ProjectDir)doc\template" --parameters "project-author" "Sam May" "project-github" "http://github.com/yourname/project" "project-name" "Pocket Binder: GameXMLParser" "root" "http://yourname.github.io/project"</PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>fsformatting.exe metadataFormat --generate --dllFiles $(TargetPath) --outDir $(ProjectDir)/doc/template --parameters "page-author" "Your name(s)" "page-description" "A package for ..." "github-link" "http://github.com/yourname/project" "project-name" "your project name" "root" "http://yourname.github.io/project"</PostBuildEvent>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.Portable.FSharp.Targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

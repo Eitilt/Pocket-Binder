@@ -28,7 +28,7 @@ decisions that should probably be explained:
     lot of functional languages, but because XML's nested, almost fractal
     nature lends itself well to recursion (or at the very least, loops), and
     rather than trying to track location and state through operating an
-    imperitive language, it felt like that would match well with this.
+    imperative language, it felt like that would match well with this.
   - **The framework:** You'll notice that I'm not using anything like
     `FSharp.Data.XML`. In fact:
 **)
@@ -42,7 +42,7 @@ open System.Xml
     likely be all right, I'm wary about trying to get an entire card database
     into a phone's RAM at once. Rather than writing interfaces for two
     separate frameworks, it made sense to just use the built-in `XMLReader`,
-    which is explicitly advertized as providing "fast, noncached, forward-only
+    which is explicitly advertised as providing "fast, noncached, forward-only
     access to XML data."
 
     I don't need any more than that.
