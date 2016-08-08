@@ -44,11 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="PortableLibrary1.fs" />
+    <Compile Include="Parser.fs" />
     <None Include="Script.fsx" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>fsformatting.exe metadataFormat --generate --dllFiles $(TargetPath) --outDir $(ProjectDir)/doc/template --parameters "page-author" "Your name(s)" "page-description" "A package for ..." "github-link" "http://github.com/yourname/project" "project-name" "your project name" "root" "http://yourname.github.io/project"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.Portable.FSharp.Targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
