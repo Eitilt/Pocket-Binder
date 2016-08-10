@@ -1,0 +1,1068 @@
+<?xml version="1.0" encoding="utf-8"?>
+<game id="mlp">
+	<display>@string/mlp_game_title</display>
+	<!-- TODO: Create/download icons -->
+	<!-- TODO: Add errata and banlist -->
+
+	<include>@xml/mlp_views</include>
+
+	<!-- Lines -->
+	<line id="none">
+		<display>@string/mlp_line_none</display>
+		<format />
+	</line>
+	<line id="main">
+		<display>@string/mlp_line_main</display>
+		<format>@string/mlp_format_line_main</format>
+	</line>
+	<line id="foil">
+		<display>@string/mlp_line_foil</display>
+		<format>@string/mlp_format_line_foil</format>
+	</line>
+	<line id="promo">
+		<display>@string/mlp_line_promo</display>
+		<format>@string/mlp_format_line_promo</format>
+	</line>
+	<line id="royal">
+		<display>@string/mlp_line_royal</display>
+		<format>@string/mlp_format_line_royal</format>
+	</line>
+	<line id="token">
+		<display>@string/mlp_line_token</display>
+		<format>@string/mlp_format_line_token</format>
+	</line>
+
+	<!-- Rarities -->
+	<rarity id="none">
+		<display>@string/mlp_rarity_none</display>
+	</rarity>
+	<rarity id="f">
+		<display>@string/mlp_rarity_f</display>
+		<abbr>@string/mlp_rarity_f_abbr</abbr>
+	</rarity>
+	<rarity id="c">
+		<display>@string/mlp_rarity_c</display>
+		<abbr>@string/mlp_rarity_c_abbr</abbr>
+	</rarity>
+	<rarity id="u">
+		<display>@string/mlp_rarity_u</display>
+		<abbr>@string/mlp_rarity_u_abbr</abbr>
+	</rarity>
+	<rarity id="r">
+		<display>@string/mlp_rarity_r</display>
+		<abbr>@string/mlp_rarity_r_abbr</abbr>
+	</rarity>
+	<rarity id="sr">
+		<display>@string/mlp_rarity_sr</display>
+		<abbr>@string/mlp_rarity_sr_abbr</abbr>
+	</rarity>
+	<rarity id="ur">
+		<display>@string/mlp_rarity_ur</display>
+		<abbr>@string/mlp_rarity_ur_abbr</abbr>
+	</rarity>
+
+	<!-- Colors -->
+	<color id="none">
+		<display>@string/mlp_color_none_name</display>
+		<value>@color/mlp_color_none</value>
+	</color>
+	<color id="blue">
+		<display>@string/mlp_color_blue_name</display>
+		<value>@color/mlp_color_blue</value>
+	</color>
+	<color id="orange">
+		<display>@string/mlp_color_orange_name</display>
+		<value>@color/mlp_color_orange</value>
+	</color>
+	<color id="pink">
+		<display>@string/mlp_color_pink_name</display>
+		<value>@color/mlp_color_pink</value>
+	</color>
+	<color id="purple">
+		<display>@string/mlp_color_purple_name</display>
+		<value>@color/mlp_color_purple</value>
+	</color>
+	<color id="white">
+		<display>@string/mlp_color_white_name</display>
+		<value>@color/mlp_color_white</value>
+	</color>
+	<color id="yellow">
+		<display>@string/mlp_color_yellow_name</display>
+		<value>@color/mlp_color_yellow</value>
+	</color>
+
+	<!-- Blocks -->
+	<block id="PrB">
+		<display>@string/mlp_block_prb</display>
+		<index>1</index>
+	</block>
+	<block id="OsB">
+		<display>@string/mlp_block_osb</display>
+		<index>2</index>
+	</block>
+
+	<!-- Sets -->
+	<set id="GF">
+		<display>@string/mlp_set_gf</display>
+		<abbr>@string/mlp_set_gf_abbr</abbr>
+
+		<line id="main" />
+	</set>
+	<set id="GC">
+		<display>@string/mlp_set_gc</display>
+		<abbr>@string/mlp_set_gc_abbr</abbr>
+
+		<line id="none" />
+	</set>
+	<set id="SoT">
+		<display>@string/mlp_set_sot</display>
+		<abbr>@string/mlp_set_sot_abbr</abbr>
+
+		<line id="main" />
+	</set>
+	<set id="Pr">
+		<display>@string/mlp_set_pr</display>
+		<abbr>@string/mlp_set_pr_abbr</abbr>
+		<block id="PrB">1</block>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+	</set>
+	<set id="CN">
+		<display>@string/mlp_set_cn</display>
+		<abbr>@string/mlp_set_cn_abbr</abbr>
+		<block id="PrB">2</block>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+	</set>
+	<set id="RnR">
+		<display>@string/mlp_set_rnr</display>
+		<abbr>@string/mlp_set_rnr_abbr</abbr>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+	</set>
+	<set id="CS">
+		<display>@string/mlp_set_cs</display>
+		<abbr>@string/mlp_set_cs_abbr</abbr>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+	</set>
+	<set id="CG">
+		<display>@string/mlp_set_cg</display>
+		<abbr>@string/mlp_set_cg_abbr</abbr>
+		<block id="PrB">3</block>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+	</set>
+	<set id="AD">
+		<display>@string/mlp_set_ad</display>
+		<abbr>@string/mlp_set_ad_abbr</abbr>
+		<block id="PrB">4</block>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+	</set>
+	<set id="EO">
+		<display>@string/mlp_set_eo</display>
+		<abbr>@string/mlp_set_eo_abbr</abbr>
+		<block id="OsB">1</block>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+		<line id="royal" />
+	</set>
+	<set id="HM">
+		<display>@string/mlp_set_hm</display>
+		<abbr>@string/mlp_set_hm_abbr</abbr>
+		<block id="OsB">2</block>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+		<line id="royal" />
+		<line id="token" />
+	</set>
+	<set id="MiT">
+		<display>@string/mlp_set_mit</display>
+		<abbr>@string/mlp_set_mit_abbr</abbr>
+		<block id="OsB">3</block>
+
+		<line id="main" />
+		<line id="foil" />
+		<line id="promo" />
+		<line id="royal" />
+		<line id="token" />
+	</set>
+
+	<!-- Enums -->
+	<enum id="keyword">
+		<display>@string/mlp_enum_keyword</display>
+
+		<item id="calming">
+			<display>@string/mlp_keyword_calming</display>
+			<text>@string/mlp_keyword_calming_text</text>
+			<boolean id="scales">true</boolean>
+		</item>
+		<item id="caretaker">
+			<display>@string/mlp_keyword_caretaker</display>
+			<text>@string/mlp_keyword_caretaker_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="competitive">
+			<display>@string/mlp_keyword_competitive</display>
+			<text>@string/mlp_keyword_competitive_text</text>
+			<boolean id="scales">true</boolean>
+		</item>
+		<item id="diligent">
+			<display>@string/mlp_keyword_diligent</display>
+			<text>@string/mlp_keyword_diligent_text</text>
+			<boolean id="scales">true</boolean>
+		</item>
+		<item id="eccentric">
+			<display>@string/mlp_keyword_eccentric</display>
+			<text>@string/mlp_keyword_eccentric_text</text>
+			<boolean id="scales">true</boolean>
+		</item>
+		<item id="hasty">
+			<display>@string/mlp_keyword_hasty</display>
+			<text>@string/mlp_keyword_hasty_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="inspired">
+			<display>@string/mlp_keyword_inspired</display>
+			<text>@string/mlp_keyword_inspired_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="meticulous">
+			<display>@string/mlp_keyword_meticulous</display>
+			<text>@string/mlp_keyword_meticulous_text</text>
+			<boolean id="scales">true</boolean>
+		</item>
+		<item id="persistent">
+			<display>@string/mlp_keyword_persistent</display>
+			<text>@string/mlp_keyword_persistent_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="prepared">
+			<display>@string/mlp_keyword_prepared</display>
+			<text>@string/mlp_keyword_prepared_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="prismatic">
+			<display>@string/mlp_keyword_prismatic</display>
+			<text>@string/mlp_keyword_prismatic_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="pumped">
+			<display>@string/mlp_keyword_pumped</display>
+			<text>@string/mlp_keyword_pumped_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="random">
+			<display>@string/mlp_keyword_random</display>
+			<text>@string/mlp_keyword_random_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="showy">
+			<display>@string/mlp_keyword_showy</display>
+			<text>@string/mlp_keyword_showy_text</text>
+			<boolean id="scales">true</boolean>
+		</item>
+		<item id="starting">
+			<display>@string/mlp_keyword_starting</display>
+			<text>@string/mlp_keyword_starting_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="stubborn">
+			<display>@string/mlp_keyword_stubborn</display>
+			<text>@string/mlp_keyword_stubborn_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="studious">
+			<display>@string/mlp_keyword_studious</display>
+			<text>@string/mlp_keyword_studious_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="supportive">
+			<display>@string/mlp_keyword_supportive</display>
+			<text>@string/mlp_keyword_supportive_text</text>
+			<boolean id="scales">true</boolean>
+		</item>
+		<item id="swift">
+			<display>@string/mlp_keyword_swift</display>
+			<text>@string/mlp_keyword_swift_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="teamwork">
+			<display>@string/mlp_keyword_teamwork</display>
+			<text>@string/mlp_keyword_teamwork_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="vexing">
+			<display>@string/mlp_keyword_vexing</display>
+			<text>@string/mlp_keyword_vexing_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+		<item id="villain">
+			<display>@string/mlp_keyword_villain</display>
+			<text>@string/mlp_keyword_villain_text</text>
+			<boolean id="scales">false</boolean>
+		</item>
+
+		<if bool="scales">
+			<format>
+				@string/mlp_format_keyword_scales
+			</format>
+
+		<else>
+			<format>
+				@string/mlp_format_keyword_static
+			</format>
+		</else></if>
+	</enum>
+	<enum id="location">
+		<display>@string/mlp_enum_location</display>
+
+		<item id="home">
+			<display>@string/mlp_location_home</display>
+			<text>@string/mlp_location_home_text</text>
+		</item>
+		<item id="problem">
+			<display>@string/mlp_location_problem</display>
+			<text>@string/mlp_location_problem_text</text>
+		</item>
+		<item id="friend">
+			<display>@string/mlp_location_friend</display>
+			<text>@string/mlp_location_friend_text</text>
+		</item>
+		<item id="opponent">
+			<display>@string/mlp_location_opponent</display>
+			<text>@string/mlp_location_opponent_text</text>
+		</item>
+	</enum>
+	<enum id="status">
+		<display>@string/mlp_enum_status</display>
+
+		<item id="start">
+			<display>@string/mlp_status_start</display>
+			<index>1</index>
+		</item>
+		<item id="boosted">
+			<display>@string/mlp_status_boosted</display>
+			<index>2</index>
+		</item>
+		<item id="boosted_gencon">
+			<display>@string/mlp_status_boosted_gencon</display>
+			<index>2</index>
+		</item>
+	</enum>
+	<enum id="timing">
+		<display>@string/mlp_enum_timing</display>
+
+		<item id="immediate">
+			<display>@string/mlp_timing_immediate</display>
+		</item>
+		<item id="phase_main">
+			<display>@string/mlp_timing_phase_main</display>
+		</item>
+		<item id="phase_troublemaker">
+			<display>@string/mlp_timing_phase_troublemaker</display>
+		</item>
+		<item id="faceoff">
+			<display>@string/mlp_timing_faceoff</display>
+		</item>
+		<item id="faceoff_problem">
+			<display>@string/mlp_timing_faceoff_problem</display>
+		</item>
+		<item id="faceoff_troublemaker">
+			<display>@string/mlp_timing_faceoff_troublemaker</display>
+		</item>
+		<item id="reaction">
+			<display>@string/mlp_timing_reaction</display>
+		</item>
+		<item id="reaction_faceoff">
+			<display>@string/mlp_timing_reaction_faceoff</display>
+		</item>
+		<item id="reaction_problem">
+			<display>@string/mlp_timing_reaction_problem</display>
+		</item>
+		<item id="reaction_troublemaker">
+			<display>@string/mlp_timing_reaction_troublemaker</display>
+		</item>
+	</enum>
+	<enum id="trait">
+		<item id="chaotic">
+			<display>@string/mlp_trait_chaotic</display>
+		</item>
+		<item id="ponytone">
+			<display>@string/mlp_trait_ponytone</display>
+		</item>
+		<item id="unique">
+			<display>@string/mlp_trait_unique</display>
+		</item>
+
+		<group id="friend">
+			<display>@string/mlp_traitgroup_friend</display>
+
+			<item id="alicorn">
+				<display>@string/mlp_trait_alicorn</display>
+			</item>
+			<item id="ally">
+				<display>@string/mlp_trait_ally</display>
+			</item>
+			<item id="breezie">
+				<display>@string/mlp_trait_breezie</display>
+			</item>
+			<item id="buffalo">
+				<display>@string/mlp_trait_buffalo</display>
+			</item>
+			<item id="changeling">
+				<display>@string/mlp_trait_changeling</display>
+			</item>
+			<item id="cow">
+				<display>@string/mlp_trait_cow</display>
+			</item>
+			<item id="critter">
+				<display>@string/mlp_trait_critter</display>
+			</item>
+			<item id="crystal">
+				<display>@string/mlp_trait_crystal</display>
+			</item>
+			<item id="donkey">
+				<display>@string/mlp_trait_donkey</display>
+			</item>
+			<item id="draconequus">
+				<display>@string/mlp_trait_draconequus</display>
+			</item>
+			<item id="dragon">
+				<display>@string/mlp_trait_dragon</display>
+			</item>
+			<item id="griffon">
+				<display>@string/mlp_trait_griffon</display>
+			</item>
+			<item id="earth">
+				<display>@string/mlp_trait_earth</display>
+			</item>
+			<item id="elder">
+				<display>@string/mlp_trait_elder</display>
+			</item>
+			<item id="earth">
+				<display>@string/mlp_trait_foal</display>
+			</item>
+			<item id="minotaur">
+				<display>@string/mlp_trait_minotaur</display>
+			</item>
+			<item id="pegasus">
+				<display>@string/mlp_trait_pegasus</display>
+			</item>
+			<item id="performer">
+				<display>@string/mlp_trait_performer</display>
+			</item>
+			<item id="powerpony">
+				<display>@string/mlp_trait_powerpony</display>
+			</item>
+			<item id="rock">
+				<display>@string/mlp_trait_rock</display>
+			</item>
+			<item id="royalty">
+				<display>@string/mlp_trait_royalty</display>
+			</item>
+			<item id="serpent">
+				<display>@string/mlp_trait_serpent</display>
+			</item>
+			<item id="siren">
+				<display>@string/mlp_trait_siren</display>
+			</item>
+			<item id="tree">
+				<display>@string/mlp_trait_tree</display>
+			</item>
+			<item id="unicorn">
+				<display>@string/mlp_trait_unicorn</display>
+			</item>
+			<item id="yak">
+				<display>@string/mlp_trait_yak</display>
+			</item>
+			<item id="zebra">
+				<display>@string/mlp_trait_zebra</display>
+			</item>
+		</group>
+		<group id="event">
+			<display>@string/mlp_traitgroup_event</display>
+
+			<item id="gotcha">
+				<display>@string/mlp_trait_gotcha</display>
+			</item>
+			<item id="showdown">
+				<display>@string/mlp_trait_showdown</display>
+			</item>
+			<item id="song">
+				<display>@string/mlp_trait_song</display>
+			</item>
+		</group>
+		<group id="resource">
+			<display>@string/mlp_traitgroup_resource</display>
+
+			<item id="accessory">
+				<display>@string/mlp_trait_accessory</display>
+			</item>
+			<item id="armor">
+				<display>@string/mlp_trait_armor</display>
+			</item>
+			<item id="artifact">
+				<display>@string/mlp_trait_artifact</display>
+			</item>
+			<item id="asset">
+				<display>@string/mlp_trait_asset</display>
+			</item>
+			<item id="condition">
+				<display>@string/mlp_trait_condition</display>
+			</item>
+			<item id="dilemma">
+				<display>@string/mlp_trait_dilemma</display>
+			</item>
+			<item id="location">
+				<display>@string/mlp_trait_location</display>
+			</item>
+			<item id="mailbox">
+				<display>@string/mlp_trait_mailbox</display>
+			</item>
+			<item id="report">
+				<display>@string/mlp_trait_report</display>
+			</item>
+		</group>
+		<group id="troublemaker">
+			<display>@string/mlp_traitgroup_troublemaker</display>
+
+			<item id="epic">
+				<display>@string/mlp_trait_epic</display>
+			</item>
+		</group>
+	</enum>
+
+	<!-- Types -->
+	<type id="mane">
+		<display>@string/mlp_type_mane</display>
+
+		<data id="common">
+			<string name="title">
+				<display>@string/mlp_label_title</display>
+				<unindexed />
+			</string>
+			<string name="subtitle">
+				<display>@string/mlp_label_subtitle</display>
+				<unindexed />
+			</string>
+
+			<elem id="color">
+				<display>@string/mlp_label_mane_color</display>
+			</elem>
+
+			<elem id="keywords">
+				<display>@string/mlp_label_mane_keywords</display>
+				<min>0</min>
+			</elem>
+
+			<struct name="traits">
+				<display>@string/mlp_label_mane_traits</display>
+
+				<elem id="trait.friend">
+					<index />
+				</elem>
+				<boolean name="primary">
+					<mincount>1</mincount>
+					<maxcount>1</maxcount>
+				</boolean>
+
+				<min>1</min>
+			</struct>
+		</data>
+		<data id="side" name="front">
+			<elem id="status">
+				<display>@string/mlp_label_mane_side</display>
+				<dataindex />
+			</elem>
+
+			<html name="flavor">
+				<display>@string/mlp_label_flavor</display>
+				<unindexed />
+			</html>
+
+			<int name="power">
+				<display>@string/mlp_label_mane_power</display>
+			</int>
+
+			<struct name="gametext">
+				<display>@string/mlp_label_mane_gametext</display>
+
+				<elem id="timing">
+					<max>1</max>
+					<index />
+				</elem>
+
+				<string name="effect" />
+			</struct>
+
+			<int name="homelimit">
+				<display>@string/mlp_label_mane_homelimit</display>
+
+				<!-- The GenCon cards don't have this info -->
+				<max>1</max>
+			</int>
+		</data>
+		<data id="side" name="back" />
+
+		<index id="title_full">
+			<display>@string/mlp_label_title_full</display>
+
+			<elem id="common.title">1</elem>
+			<elem id="common.subtitle">2</elem>
+
+			<format>@string/mlp_format_label_title_full</format>
+			<sortonly />
+		</index>
+	</type>
+	<type id="friend">
+		<display>@string/mlp_type_friend</display>
+
+		<data id="data">
+			<string name="title">
+				<display>@string/mlp_label_title</display>
+				<unindexed />
+			</string>
+			<string name="subtitle">
+				<display>@string/mlp_label_subtitle</display>
+				<unindexed />
+
+				<!-- The GenCon cards don't have this info -->
+				<max>1</max>
+			</string>
+
+			<elem id="color">
+				<display>@string/mlp_label_friend_color</display>
+
+				<min>1</min>
+				<max>2</max>
+			</elem>
+
+			<html name="flavor">
+				<display>@string/mlp_label_flavor</display>
+				<unindexed />
+			</html>
+
+			<int name="power">
+				<display>@string/mlp_label_friend_power</display>
+			</int>
+
+			<int name="cost">
+				<display>@string/mlp_label_friend_cost</display>
+			</int>
+
+			<struct name="requires">
+				<display>@string/mlp_label_friend_requires</display>
+
+				<elem id="color" />
+				<int name="colorcost" />
+
+				<max>2</max>
+			</struct>
+
+			<struct name="gametext">
+				<display>@string/mlp_label_friend_gametext</display>
+
+				<elem id="timing">
+					<max>1</max>
+					<index />
+				</elem>
+
+				<string name="effect" />
+
+				<min>0</min>
+			</struct>
+
+			<elem id="keywords">
+				<display>@string/mlp_label_friend_keywords</display>
+				<min>0</min>
+			</elem>
+
+			<struct name="traits">
+				<display>@string/mlp_label_friend_traits</display>
+
+				<elem id="trait.friend">
+					<index />
+				</elem>
+				<boolean name="primary">
+					<mincount>1</mincount>
+					<maxcount>1</maxcount>
+				</boolean>
+
+				<min>1</min>
+			</struct>
+		</data>
+
+		<index id="title_full">
+			<display>@string/mlp_label_title_full</display>
+
+			<elem id="data.title">1</elem>
+			<elem id="data.subtitle">2</elem>
+
+			<if nonnull="data.subtitle">
+				<format>
+					@string/mlp_format_label_title_full
+				</format>
+
+			<else>
+				<format>
+					@string/mlp_format_label_title_only
+				</format>
+			</else></if>
+
+			<sortonly />
+		</index>
+	</type>
+	<type id="event">
+		<display>@string/mlp_type_event</display>
+
+		<data id="data">
+			<string name="title">
+				<display>@string/mlp_label_title</display>
+				<sortonly />
+			</string>
+
+			<html name="flavor">
+				<display>@string/mlp_label_flavor</display>
+				<unindexed />
+			</html>
+
+			<int name="power">
+				<display>@string/mlp_label_event_power</display>
+			</int>
+
+			<int name="cost">
+				<display>@string/mlp_label_event_cost</display>
+			</int>
+
+			<struct name="requires">
+				<display>@string/mlp_label_event_requires</display>
+
+				<elem id="color" />
+				<int name="colorcost" />
+
+				<max>2</max>
+			</struct>
+
+			<struct name="gametext">
+				<display>@string/mlp_label_event_gametext</display>
+
+				<elem id="timing">
+					<max>1</max>
+					<index />
+				</elem>
+
+				<string name="effect" />
+
+				<min>1</min>
+			</struct>
+
+			<elem id="keywords">
+				<display>@string/mlp_label_event_keywords</display>
+				<min>0</min>
+			</elem>
+
+			<struct name="traits">
+				<display>@string/mlp_label_event_traits</display>
+
+				<elem id="trait.event">
+					<index />
+				</elem>
+				<boolean name="primary">
+					<mincount>1</mincount>
+					<maxcount>1</maxcount>
+				</boolean>
+
+				<min>1</min>
+			</struct>
+		</data>
+	</type>
+	<type id="resource">
+		<display>@string/mlp_type_resource</display>
+
+		<subtype id="standard" />
+		<subtype id="dilemma">
+			<data id="dilemma">
+				<struct name="confront">
+					<display>
+					@string/mlp_label_problem_confront
+					</display>
+
+					<elem id="color">
+						<max>1</max>
+					</elem>
+					<boolean name="negatecolor">
+						<max>1</max>
+					</boolean>
+					<int name="colorcost" />
+
+					<max>2</max>
+				</struct>
+
+				<int name="opposing">
+					<display>
+					@string/mlp_label_problem_opposing
+					</display>
+				</int>
+			</data>
+		</subtype>
+
+		<data id="data">
+			<string name="title">
+				<display>@string/mlp_label_title</display>
+				<unindexed />
+			</string>
+			<string name="subtitle">
+				<display>@string/mlp_label_subtitle</display>
+				<unindexed />
+
+				<max>1</max>
+			</string>
+
+			<html name="flavor">
+				<display>@string/mlp_label_flavor</display>
+				<unindexed />
+			</html>
+
+			<int name="power">
+				<display>@string/mlp_label_resource_power</display>
+			</int>
+
+			<int name="cost">
+				<display>@string/mlp_label_resource_cost</display>
+			</int>
+
+			<elem id="location" />
+
+			<struct name="requires">
+				<display>
+					@string/mlp_label_resource_requires
+				</display>
+
+				<elem id="color" />
+				<int name="colorcost" />
+
+				<max>2</max>
+			</struct>
+
+			<struct name="gametext">
+				<display>
+					@string/mlp_label_resource_gametext
+				</display>
+
+				<elem id="timing">
+					<max>1</max>
+					<index />
+				</elem>
+
+				<string name="effect" />
+
+				<min>1</min>
+			</struct>
+
+			<elem id="keywords">
+				<display>
+					@string/mlp_label_resource_keywords
+				</display>
+				<min>0</min>
+			</elem>
+
+			<struct name="traits">
+				<display>@string/mlp_label_resource_traits</display>
+
+				<elem id="trait.resource">
+					<index />
+				</elem>
+				<boolean name="primary">
+					<mincount>1</mincount>
+					<maxcount>1</maxcount>
+				</boolean>
+
+				<min>1</min>
+			</struct>
+		</data>
+
+		<index id="title_full">
+			<display>@string/mlp_label_title_full</display>
+
+			<elem id="data.title">1</elem>
+			<elem id="data.subtitle">2</elem>
+
+			<if nonnull="data.subtitle">
+				<format>
+					@string/mlp_format_label_title_full
+				</format>
+
+			<else>
+				<format>
+					@string/mlp_format_label_title_only
+				</format>
+			</else></if>
+
+			<sortonly />
+		</index>
+	</type>
+	<type id="troublemaker">
+		<display>@string/mlp_type_troublemaker</display>
+
+		<data id="data">
+			<string name="title">
+				<display>@string/mlp_label_title</display>
+				<unindexed />
+			</string>
+			<string name="subtitle">
+				<display>@string/mlp_label_subtitle</display>
+				<unindexed />
+
+				<max>1</max>
+			</string>
+
+			<html name="flavor">
+				<display>@string/mlp_label_flavor</display>
+				<unindexed />
+			</html>
+
+			<int name="power">
+				<display>
+					@string/mlp_label_troublemaker_power
+				</display>
+			</int>
+
+			<int name="points">
+				<display>
+					@string/mlp_label_troublemaker_points
+				</display>
+			</int>
+
+			<struct name="gametext">
+				<display>
+					@string/mlp_label_troublemaker_gametext
+				</display>
+
+				<elem id="timing">
+					<max>1</max>
+					<index />
+				</elem>
+
+				<string name="effect" />
+
+				<min>1</min>
+			</struct>
+
+			<elem id="keywords">
+				<display>
+					@string/mlp_label_troublemaker_keywords
+				</display>
+				<min>0</min>
+			</elem>
+
+			<struct name="traits">
+				<display>
+					@string/mlp_label_troublemaker_traits
+				</display>
+
+				<elem id="trait.troublemaker">
+					<index />
+				</elem>
+				<boolean name="primary">
+					<mincount>1</mincount>
+					<maxcount>1</maxcount>
+				</boolean>
+
+				<min>1</min>
+			</struct>
+		</data>
+
+		<index id="title_full">
+			<display>@string/mlp_label_title_full</display>
+
+			<elem id="data.title">1</elem>
+			<elem id="data.subtitle">2</elem>
+
+			<if nonnull="data.subtitle">
+				<format>
+					@string/mlp_format_label_title_full
+				</format>
+
+			<else>
+				<format>
+					@string/mlp_format_label_title_only
+				</format>
+			</else></if>
+
+			<sortonly />
+		</index>
+	</type>
+	<type id="problem">
+		<display>@string/mlp_type_problem</display>
+
+		<data id="data">
+			<string name="title">
+				<display>@string/mlp_label_title</display>
+				<sortonly />
+			</string>
+
+			<html name="flavor">
+				<display>@string/mlp_label_flavor</display>
+				<unindexed />
+			</html>
+
+			<int name="points">
+				<display>@string/mlp_label_problem_points</display>
+			</int>
+
+			<struct name="gametext">
+				<display>@string/mlp_label_problem_gametext</display>
+
+				<elem id="timing">
+					<max>1</max>
+					<index />
+				</elem>
+
+				<string name="effect" />
+
+				<min>1</min>
+			</struct>
+
+			<elem id="keywords">
+				<display>@string/mlp_label_problem_keywords</display>
+				<min>0</min>
+			</elem>
+
+			<struct name="confront">
+				<display>@string/mlp_label_problem_confront</display>
+
+				<elem id="color">
+					<max>1</max>
+				</elem>
+				<boolean name="negatecolor">
+					<max>1</max>
+				</boolean>
+				<int name="colorcost" />
+
+				<max>2</max>
+			</struct>
+
+			<int name="opposing">
+				<display>@string/mlp_label_problem_opposing</display>
+			</int>
+		</data>
+	</type>
+</game>
