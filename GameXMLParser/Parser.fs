@@ -48,7 +48,94 @@ open System.Xml
     I don't need any more than that.
 **)
 
-type Tag(e : string, i : string option, n : string option) = 
-    member this.elem = e
-    member this.id = i
-    member this.name = n
+
+(**
+Reading
+-------
+**)
+module Reader =
+
+(** Before we can parse anything, we need to be able to read through the file.
+Due to that same nested nature that led to me choosing F#, that's slightly
+more involved than simply reading line-by-line; we need to keep track of where
+the "cursor" is in order to parse the structure correctly.
+
+We can treat that location as a single, non-branching path as long as we save
+the data in some other way once we hit a closing tag, and since we don't want
+to be operating on raw XML tags for the rest of the program anyway, that's not
+an unreasonable requirement. Therefore, for this section, we only need a way
+to represent tags (including any potential attributes they might have). I am
+counting contained text as an intrinsic part of the tag as, if we do anything
+with the tag, it is as likely to involve that as any of the attributes.
+**)
+    type Attribute = string * string
+    type Tag = {
+        Elem : string
+        Atts : Attribute list
+        Text : string option
+    }
+
+(** F# records are definitely handy but their initial creation can be a bit
+verbose, so it helps to create an empty prototype and use the `with` syntax.
+**)
+    let newTag = {
+        Elem = ""
+        Atts = []
+        Text = None
+    }
+
+(** And for the final bit of setup, create helper functions to simplify adding
+data to the non-trivial fields in `Tag`. Admittedly, `readAttrs` pretty much
+has to be a recursive function unless we want to create an explicit loop, but
+one of my favorite things about functional languages is how they encourage
+short, single-purpose functions, and I just found the extra nested `match` in
+`addOption` to look too wordy if it's written out in another function.
+**)
+    let rec readAttrs tag (reader : XmlReader) =
+        match (reader.MoveToNextAttribute ()) with
+        | true  -> readAttrs { tag with Atts = (reader.LocalName, reader.ReadContentAsString()) :: tag.Atts } reader
+        | false -> tag
+
+    let inline addOption existing addition =
+        match existing with
+        | None   -> Some addition
+        | Some e -> Some (e + addition)
+
+(** The first smallest sensible segment to define is a way to represent the
+current node in the file -- this will be similar to System.Xml.XmlNodeType,
+but allows passing the content alongside the type. One idiosyncrasy that needs
+to be handled, though, is that a self-closing tag (`<tag />`) only generates a
+`Element` event, without an `EndElement`. As we will be relying on the latter
+to pop tags from the location stack, we need a separate case to indicate them.
+**)
+    type Content =
+        | EOF
+        | StartTag of Tag
+        | EndTag   of string
+        | EmptyTag of Tag
+        | Text     of string
+
+(** This is likewise rather unremarkable, being essentially just a simple way
+to translate from the `XmlNodeType`. The most interesting part of it is in the
+match for `Element`, when it makes use of the first-class functions to apply
+the same arguments to multiple types of `Content`.
+**)
+    let rec parseTag (reader : XmlReader) =
+        if (reader.Read ())
+            then match reader.NodeType with
+                 | XmlNodeType.Element    -> (if reader.IsEmptyElement
+                                                  then EmptyTag
+                                                  else StartTag) (readAttrs { newTag with Elem = reader.LocalName } reader)
+                 | XmlNodeType.EndElement -> EndTag reader.LocalName
+                 | XmlNodeType.Text       -> Text (reader.ReadContentAsString ())
+                 | _                      -> parseTag reader
+            else EOF
+
+    let rec walk cursor (reader : XmlReader) =
+        match parseTag reader with
+        | EOF          -> cursor
+        | StartTag tag -> walk (tag :: cursor) reader
+        | EndTag _     -> List.tail cursor
+        | Text text    -> match cursor with
+                          | [] -> walk cursor reader
+                          | (head :: tail) -> walk ({ head with Text = addOption head.Text text } :: tail) reader
