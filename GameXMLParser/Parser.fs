@@ -237,7 +237,7 @@ very least, and there's no harm in helping the phones along wherever possible.
 (*** define: function-walk ***)
     let rec walk store reader cursor =
         match parseTag reader with
-        | EOF          -> ignore (triggerDown store (List.last cursor).Elem cursor)
+        | EOF          -> ignore <| triggerDown store (List.last cursor).Elem cursor
         | StartTag tag -> walk store reader (tag :: cursor)
         | EndTag elem  -> match cursor with
                           | [] -> walk store reader cursor
