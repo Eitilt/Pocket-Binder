@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GameXMLParser", "GameXMLParser\GameXmlParser.fsproj", "{F7C687D0-6A94-44BA-89AF-0E1C45BA9270}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GameXmlParser", "GameXMLParser\GameXmlParser.fsproj", "{F7C687D0-6A94-44BA-89AF-0E1C45BA9270}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{EFE82388-315E-40A8-AB17-357EF3D14B31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D50BD5B-A327-4919-AB1C-C093FA505716}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
