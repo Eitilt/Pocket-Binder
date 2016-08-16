@@ -72,13 +72,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <Reference Include="Unquote">
-      <HintPath>..\packages\Unquote.2.2.2\lib\net40\Unquote.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameXMLParser.Test.fs" />
+    <Compile Include="GameXmlParser.Test.fs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

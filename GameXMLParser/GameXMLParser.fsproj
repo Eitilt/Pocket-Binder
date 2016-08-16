@@ -14,7 +14,7 @@
     <TargetProfile>netcore</TargetProfile>
     <TargetFSharpCoreVersion>3.7.4.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>GameXMLParser</Name>
+    <Name>GameXmlParser</Name>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
