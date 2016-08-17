@@ -180,15 +180,31 @@ as it would depend on the number of handled tag *names*, but constructing the
 number of pipes or an equally large array of functions in tuples. Instead, we
 borrow an imperative data structure from the .NET backing and use that to keep
 track of our callbacks.
+
+In trying to write unit tests, it quickly became apparent that simply storing
+a single function in the map didn't provide the user enough control. Providing
+only the one further handler may not seem like much of an improvement, but
+conceptually, having one function that processes a `Tag` into a shared
+intermediate form and another that handles the common logic from that point on
+seems to make it easier to visualize what each needs to do, at least for me.
 **)
-    type CallbackStore = System.Collections.Generic.Dictionary<string, (Tag -> unit)>
+    type CallbackStore<'V> (s, h) =
+        member this.callbacks = s
+        member this.handler : ('V -> unit) = h
+
+        new (h) = CallbackStore<'V> (new System.Collections.Generic.Dictionary<string, (Tag -> 'V)> (), h)
+        new (s) = CallbackStore<'V> (s, fun _ -> ())
+        new ()  = CallbackStore<'V> (fun _ -> ())
 
 (** While we could operate on that directly, it is better to provide a more
-encapsulated means of triggering any particular callback, in case we want to
-have an internal hook in the future or anything. Besides, it makes the code
-clearer to read through.
+encapsulated means of triggering any particular callback, in case
+`CallbackStore` changes even further -- earlier iterations didn't include
+`handler`, and having this extra step made that refactoring much simpler.
+Besides, it makes the code clearer to read through.
 **)
-    let trigger (store : CallbackStore) tag = store.Item tag.Elem tag
+    let trigger (store : CallbackStore<_>) tag =
+        store.callbacks.Item tag.Elem tag
+        |> store.handler
 
 (** This, though, can potentially be a lot more important -- if any of the
 tags aren't closed properly (whether due to using an HTML style of nesting or
@@ -214,10 +230,10 @@ be O(n²) otherwise) at the smaller cost of requiring the list be reversed.
 **)
     let rec triggerDown' elem cursor path =
         match cursor with
+        | []             -> []
         | (head :: tail) -> if head.Elem = elem
                                 then (head :: path)
                                 else triggerDown' elem tail (head :: path)
-        | []             -> []
 (** Allowing tail optimizations by including `path` in the arguments likely
 does not hugely affect anything, but I figure it's still good practice at the
 very least, and there's no harm in helping the phones along wherever possible.
@@ -240,12 +256,12 @@ very least, and there's no harm in helping the phones along wherever possible.
         | EOF          -> ignore <| triggerDown store (List.last cursor).Elem cursor
         | StartTag tag -> walk store reader (tag :: cursor)
         | EndTag elem  -> match cursor with
-                          | [] -> walk store reader cursor
-                          | _  -> triggerDown store elem cursor
-                                  |> walk store reader
+                          | []             -> walk store reader cursor
+                          | _              -> triggerDown store elem cursor
+                                              |> walk store reader
         | Text text    -> match cursor with
+                          | []             -> walk store reader cursor
                           | (head :: tail) -> { head with Text = addOption head.Text text } :: tail
                                               |> walk store reader
-                          | []             -> walk store reader cursor
         | EmptyTag tag -> trigger store tag
                           walk store reader cursor
