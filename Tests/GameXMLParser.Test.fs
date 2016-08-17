@@ -8,15 +8,17 @@ open FsUnit
 open FsCheck
 open NUnit.Framework
 
+//TODO: Figure out how to write tests for `trigger`, `triggerDown`, and `walk`
+
 [<Test>]
 let ``Reader.addOption: left identity`` () =
-    Prop.forAll (Arb.fromGen Arb.generate<string>) <|
+    Prop.forAll Arb.from<string> <|
         fun str -> (Reader.addOption None str) = (Some str)
     |> Check.QuickThrowOnFailure
 
 [<Test>]
 let ``Reader.addOption: right identity`` () =
-    Prop.forAll (Arb.fromGen (Gen.filter (fun (str) -> str <> null) Arb.generate<string>)) <|
+    Prop.forAll (Arb.filter (fun (str) -> not <| System.Object.ReferenceEquals (str, null)) Arb.from<string>) <|
         fun str -> (Reader.addOption (Some str) "") = (Some str)
     |> Check.QuickThrowOnFailure
 

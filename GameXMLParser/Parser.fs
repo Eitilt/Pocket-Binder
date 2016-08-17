@@ -167,6 +167,13 @@ handled by `parseTag`, and could easily overflow the stack if each of those
 generated a wholly new function call with its own frame.
 **)
 
+(*** hide ***)
+// The literate docs are after those for `CallbackStore`
+(*** define type-lookup ***)
+    type Lookup<'V> =
+        | Found    of 'V
+        | NotFound of Tag
+
 (**
 Data callbacks
 --------------
@@ -190,28 +197,41 @@ seems to make it easier to visualize what each needs to do, at least for me.
 **)
     type CallbackStore<'V> (s, h) =
         member this.callbacks = s
-        member this.handler : ('V -> unit) = h
+        member this.handler : (Lookup<'V> -> unit) = h
 
         new (h) = CallbackStore<'V> (new System.Collections.Generic.Dictionary<string, (Tag -> 'V)> (), h)
-        new (s) = CallbackStore<'V> (s, fun _ -> ())
         new ()  = CallbackStore<'V> (fun _ -> ())
 
-(** While we could operate on that directly, it is better to provide a more
-encapsulated means of triggering any particular callback, in case
-`CallbackStore` changes even further -- earlier iterations didn't include
-`handler`, and having this extra step made that refactoring much simpler.
+(** You'll notice the `Lookup<'V>` in the required signature of `handler`.
+This was added as a way to notify the user that some lookup failed, as their
+store would ideally include all the tags that might be found in the files
+they're parsing, and so a missing tag is likely one that's been misspelled,
+whether in the file or in generating the store. If they do actually want to
+ignore a particular tag, there's always `match x with | NotFound y when
+y.Elem = z` -- it would be best to save the wildcard match for the times when
+it is actually an error. Anyway, the type itself is simple:
+**)
+(*** include: type-lookup ***)
+
+(** While we could operate on the `CallbackStore` directly, it is better to
+provide a more encapsulated means of triggering any particular callback, in
+case it changes even further -- `handler` and the `Lookup` type were added
+early on, and having this extra step made those refactorings much simpler.
 Besides, it makes the code clearer to read through.
 **)
     let trigger (store : CallbackStore<_>) tag =
-        store.callbacks.Item tag.Elem tag
+        try
+            Found (store.callbacks.Item tag.Elem tag)
+        with
+            | :? System.Collections.Generic.KeyNotFoundException -> NotFound tag
         |> store.handler
 
-(** This, though, can potentially be a lot more important -- if any of the
-tags aren't closed properly (whether due to using an HTML style of nesting or
-because of a misspelled closing tag), this runs the proper callback for any
-tags that might have been skipped once we do reach a node we recognize. Until
-we do, though, we don't trigger any of the callbacks as we have no guarantee
-that they aren't part of a still-incomplete enclosing tag.
+(** This next function, though, can potentially be a lot more important -- if
+any of the tags aren't closed properly (whether due to using an HTML style of
+nesting or because of a misspelled closing tag), this runs the proper callback
+for any tags that might have been skipped once we do reach a recognized node.
+Until we do, though, we don't trigger any of the callbacks as we have no
+guarantee that they aren't part of a still-incomplete enclosing tag.
 **)
 (*** include: function-triggerDown ***)
 (** Note the returned value: because multiple tags may have been processed in
