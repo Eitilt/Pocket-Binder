@@ -1,4 +1,4 @@
-﻿namespace GameXMLParser.AssemblyInfo
+﻿namespace GameParser.AssemblyInfo
 
 open System.Resources
 open System.Reflection
@@ -8,11 +8,11 @@ open System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[<assembly: AssemblyTitle("GameXMLParser")>]
+[<assembly: AssemblyTitle("GameParser")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
-[<assembly: AssemblyProduct("GameXMLParser")>]
+[<assembly: AssemblyProduct("GameParser")>]
 [<assembly: AssemblyCopyright("Copyright ©  2016")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]

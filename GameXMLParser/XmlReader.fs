@@ -1,5 +1,7 @@
-﻿(*** hide ***)
-namespace GameXmlParser
+﻿(** XML Reader
+==============
+**)
+module GameParser.XmlReader
 
 (** The core feature of the app (beyond its obvious organizational tools) was
 always meant to be extensibility into just about any TCG someone cared to make
@@ -46,62 +48,58 @@ open System.Xml
 
 
 (**
-Reading
-=======
-**)
-module Reader =
-
-(** Before we can parse anything, we need to be able to read through the file.
-Due to that same nested nature that led to me choosing F#, that's slightly
-more involved than simply reading line-by-line; we need to keep track of where
-the "cursor" is in order to parse the structure correctly.
-
 Position
 --------
+
+Before we can parse anything, we need to be able to read through the file. Due
+to that same nested nature that led to me choosing F#, that's slightly more
+involved than simply reading line-by-line; we need to keep track of where the
+"cursor" is in order to parse the structure correctly.
+
 We can treat that location as a single, non-branching path as long as we save
 the data in some other way once we hit a closing tag, and since we don't want
 to be operating on raw XML tags for the rest of the program anyway, that's not
 an unreasonable requirement. Therefore, for this section, we only need a way
 to represent those tags (including any potential attributes they might have).
 **)
-    type Attribute = string * string
-    type Tag = {
-        Elem : string
-        Atts : Attribute list
+type Attribute = string * string
+type Tag = {
+    Elem : string
+    Atts : Attribute list
 (** I am counting contained text as an intrinsic part of the tag as, if we do
 anything to a tag, it is as likely to involve that as any of the attributes.
 **)
-        Text : string option
-    }
+    Text : string option
+}
 
 (** F# records are definitely handy but their initial creation can be a bit
 verbose, so it helps to create an empty prototype and use the `with` syntax.
 **)
-    let newTag = {
-        Elem = ""
-        Atts = []
-        Text = None
-    }
+let newTag = {
+    Elem = ""
+    Atts = []
+    Text = None
+}
 
 (** And for the final bit of setup, create a couple helper functions to
 simplify adding data to the non-trivial fields in `Tag`:
 **)
-    let rec readAttrs (reader : XmlReader) tag =
-        if reader.MoveToNextAttribute ()
-            then { tag with
-                     Atts = (reader.LocalName, reader.ReadContentAsString ()) :: tag.Atts
-                 } |> readAttrs reader
-            else tag
+let rec readAttrs (reader : XmlReader) tag =
+    if reader.MoveToNextAttribute ()
+        then { tag with
+                    Atts = (reader.LocalName, reader.ReadContentAsString ()) :: tag.Atts
+                } |> readAttrs reader
+        else tag
 (** Admittedly, `readAttrs` pretty much has to be a recursive function unless
 we want to create an explicit loop, but one of my favorite things about
 functional languages is how they encourage short, single-purpose functions,
 and I just found this extra `match` to look too wordy if it's written out in
 another function.
 **)
-    let inline addOption existing addition =
-        match existing with
-        | None   -> Some addition
-        | Some e -> Some (e + addition)
+let inline addOption existing addition =
+    match existing with
+    | None   -> Some addition
+    | Some e -> Some (e + addition)
 
 (**
 Node handling
@@ -110,17 +108,17 @@ The first smallest sensible segment to define is a way to represent the nodes
 in the file -- this will be similar to System.Xml.XmlNodeType, but allows
 passing the content alongside the type.
 **)
-    type Content =
-        | EOF
-        | StartTag of Tag
-        | EndTag   of string
-        | Text     of string
+type Content =
+    | EOF
+    | StartTag of Tag
+    | EndTag   of string
+    | Text     of string
 (** One idiosyncrasy that needs to be handled, though, is that a self-closing
 tag (`<tag />`) only generates a `Element` event, without an `EndElement`. As
 we will be relying on the latter to pop tags from the location stack, we need
 a separate case to indicate that we shouldn't expect that to happen.
 **)
-        | EmptyTag of Tag
+    | EmptyTag of Tag
 
 (** Obtaining `Content` values is likewise rather unremarkable, being
 essentially just a simple way to translate from the `XmlNodeType`. The most
@@ -128,14 +126,14 @@ interesting part of it is in the match for `Element`, when it makes use of the
 first-class functions to apply the same arguments to multiple types of `Content`
 for less rewriting of code.
 **)
-    let rec parseTag (reader : XmlReader) =
-        if reader.Read ()
-            then match reader.NodeType with
-                 | XmlNodeType.Element    -> (if reader.IsEmptyElement
-                                                  then EmptyTag
-                                                  else StartTag) (readAttrs reader { newTag with Elem = reader.LocalName })
-                 | XmlNodeType.EndElement -> EndTag reader.LocalName
-                 | XmlNodeType.Text       -> Text (reader.ReadContentAsString ())
+let rec parseTag (reader : XmlReader) =
+    if reader.Read ()
+        then match reader.NodeType with
+                | XmlNodeType.Element    -> (if reader.IsEmptyElement
+                                                then EmptyTag
+                                                else StartTag) (readAttrs reader { newTag with Elem = reader.LocalName })
+                | XmlNodeType.EndElement -> EndTag reader.LocalName
+                | XmlNodeType.Text       -> Text (reader.ReadContentAsString ())
 (** We *will* need to handle unrecognized or unnecessary nodes eventually.
 Doing so in this function makes the most sense from the data perspective since
 we need to return some `Content` value; if we extract that handling to
@@ -146,8 +144,8 @@ one thing that we lose by putting it here is the ability to customize the
 handling, but that's only rarely going to be helpful, and not at all in this
 particular project.
 **)
-                 | _                      -> parseTag reader
-            else EOF
+                | _                      -> parseTag reader
+        else EOF
 
 (**
 Streaming
@@ -225,9 +223,9 @@ number of pipes or an equally large array of functions in tuples. Instead, we
 borrow an imperative data structure from the .NET backing and use that to keep
 track of our callbacks.
 **)
-    type OpeningCallback     = Tag -> unit
-    type ClosingCallback<'V> = Tag -> 'V seq -> 'V option
-    type CallbackDictionary<'V> = System.Collections.Generic.Dictionary<string, (OpeningCallback option * ClosingCallback<'V> option)>
+type OpeningCallback     = Tag -> unit
+type ClosingCallback<'V> = Tag -> 'V seq -> 'V option
+type CallbackDictionary<'V> = System.Collections.Generic.Dictionary<string, (OpeningCallback option * ClosingCallback<'V> option)>
 
 (** The signatures used for the callbacks will be discussed soon but, simply,
 allow the user to both receive notification of opening tags (for example, to
@@ -258,51 +256,51 @@ untouched, don't specify a closing callback.
 
 As that dictionary has a rather complex signature, we wrap it in another type:
 **)
-    type CallbackStore<'V> (m) = 
-        let map : CallbackDictionary<'V> = m
+type CallbackStore<'V> (m) = 
+    let map : CallbackDictionary<'V> = m
 
 (*** hide ***)
 // The literate docs are at the end of the type definition
 (*** define function-cstore-item ***)
-        let item elem =
-            try
-                let found = map.Item elem
-                found
-            with
-            | :? System.Collections.Generic.KeyNotFoundException -> None, None
+    let item elem =
+        try
+            let found = map.Item elem
+            found
+        with
+        | :? System.Collections.Generic.KeyNotFoundException -> None, None
 
 (** We also provide a pair of usability constructs for initializing an empty
 store and for copying an existing store.
 **)
-        new () = CallbackStore<'V> (new CallbackDictionary<'V> ())
-        member this.callbacks = map
+    new () = CallbackStore<'V> (new CallbackDictionary<'V> ())
+    member this.callbacks = map
 
 (** With the values being encapsulated in a tuple and callbacks for the start
 tags likely much less common than those for the end, it would definitely be
 best to allow modification of one while abstracting away the other.
 **)
-        member this.setOpen elem callback =
-            if map.ContainsKey elem
-                then let _, close = map.Item elem
-                     map.Add (elem, (Some callback, close))
-                else map.Add (elem, (Some callback, None))
+    member this.setOpen elem callback =
+        if map.ContainsKey elem
+            then let _, close = map.Item elem
+                 map.Add (elem, (Some callback, close))
+            else map.Add (elem, (Some callback, None))
 
-        member this.setClose elem callback =
-            if map.ContainsKey elem
-                then let opening, _ = map.Item elem
-                     map.Add (elem, (opening, Some callback))
-                else map.Add (elem, (None, Some callback))
+    member this.setClose elem callback =
+        if map.ContainsKey elem
+            then let opening, _ = map.Item elem
+                 map.Add (elem, (opening, Some callback))
+            else map.Add (elem, (None, Some callback))
 
 (** These getters are rather straightforward, just abstracting away the way
 the callbacks are internally stored.
 **)
-        member this.getOpen elem =
-            let first, _ = item elem
-            first
+    member this.getOpen elem =
+        let first, _ = item elem
+        first
 
-        member this.getClose elem =
-            let _, second = item elem
-            second
+    member this.getClose elem =
+        let _, second = item elem
+        second
 (** They do, however, involve a bit of indirection to support elements that
 have not actually been associated with any callbacks -- doing so internally
 makes the external code much simpler.
@@ -312,70 +310,70 @@ makes the external code much simpler.
 (** And, finally, provide a function that allows simple construction of a
 `CallbackStore` in a more functional style:
 **)
-    type Callbacks<'V> =
-        | Opening of OpeningCallback
-        | Closing of ClosingCallback<'V>
-        | Both    of OpeningCallback * ClosingCallback<'V>
+type Callbacks<'V> =
+    | Opening of OpeningCallback
+    | Closing of ClosingCallback<'V>
+    | Both    of OpeningCallback * ClosingCallback<'V>
 
-    let generateStore callbacks =
-        let rec generate (store : CallbackStore<_>) cbs =
-            match cbs with
-            | []             -> store
-            | (head :: tail) ->
-                match head with
-                | elem, Opening o   -> store.setOpen  elem o
-                                       generate store tail
-                | elem, Closing c   -> store.setClose elem c
-                                       generate store tail
-                | elem, Both (o, c) -> store.setOpen  elem o
-                                       store.setClose elem c
-                                       generate store tail
+let generateStore callbacks =
+    let rec generate (store : CallbackStore<_>) cbs =
+        match cbs with
+        | []             -> store
+        | (head :: tail) ->
+            match head with
+            | elem, Opening o   -> store.setOpen  elem o
+                                   generate store tail
+            | elem, Closing c   -> store.setClose elem c
+                                   generate store tail
+            | elem, Both (o, c) -> store.setOpen  elem o
+                                   store.setClose elem c
+                                   generate store tail
 
-        generate (new CallbackStore<_> ()) callbacks
+    generate (new CallbackStore<_> ()) callbacks
 
 (** To better encapsulate the callbacks, we wrap the access and application in
 another pair of functions; it's a good idea to begin with, and it's even nicer
 now that this module is managing the data the callbacks generate itself.
 **)
-    let triggerOpen (store : CallbackStore<_>) tag =
-        match store.getOpen tag.Elem with
-        | Some callback -> callback tag
-        | None          -> ()
+let triggerOpen (store : CallbackStore<_>) tag =
+    match store.getOpen tag.Elem with
+    | Some callback -> callback tag
+    | None          -> ()
 
 (** And then the closing callbacks; much more complex because we need to deal
 with the list of data. First we make things cleaner by defining a couple
 aliases that provide better readability of how the `Option` cases are used.
 **)
-    let startTag = None
-    let isStartTag = Option.isNone
+let startTag = None
+let isStartTag = Option.isNone
 
 (** Even so, this part of the code is admittedly a bit messy, but it's not
 actually doing all that much:
 **)
-    let triggerClose (store : CallbackStore<_>) data tag =
+let triggerClose (store : CallbackStore<_>) data tag =
 (** 1.  Find the index of the most recent start tag indicator, defaulting to a
         value that will leave the entire list in the first segment.
 **)
-        let splitIndex =
-            Seq.tryFindIndex isStartTag data
-            |> function Some i -> i | None -> Seq.length data
+    let splitIndex =
+        Seq.tryFindIndex isStartTag data
+        |> function Some i -> i | None -> Seq.length data
 (** 2.  Split the list at that index so the data from tags within the current
         one (`this`) can be manipulated separately from that generated by the
         siblings or parent's siblings or so on of the current tag (`older`),
         and discard the separator between the two groups.
 **)
-        let (this, older) = match List.splitAt splitIndex data with
-                            | (head, [])        -> (head, [])
-                            | (head, _ :: tail) -> (head, tail)
+    let (this, older) = match List.splitAt splitIndex data with
+                        | (head, [])        -> (head, [])
+                        | (head, _ :: tail) -> (head, tail)
 (** 3.  Try to obtain the callback, properly handling its (non-)existence.
 **)
-        match store.getClose tag.Elem with
+    match store.getClose tag.Elem with
 (** 4.  If there is one, retrieve the data from the `Option` wrapper used to
         indicate start tags by running the list through `Seq.choose`; we know
         that `this` doesn't contain any separator elements (and so could use a
         `Seq.map`), but we have to make the typechecker happy.
 **)
-        | Some callback -> match (Seq.choose id this
+    | Some callback -> match (Seq.choose id this
 (** 5.  Send the callback the naked data...
 **)
                                   |> callback tag) with
@@ -384,8 +382,8 @@ actually doing all that much:
         positive case simpler, but would confuse it if we added `None`s into
         the list (they're what indicates a tag break).
 **)
-                            | Some _ as tagData -> tagData :: older
-                            | None              -> older
+                        | Some _ as tagData -> tagData :: older
+                        | None              -> older
 (** 7.  If, however, there's no callback associated with the tag, simply join
         the lists back together. Note that the resulting list is not exactly
         the same as what came in (unless `older = []`) as the intermediate
@@ -393,7 +391,7 @@ actually doing all that much:
         left with, essentially, an unclosed tag, and future calls to this
         function would split the data list at improper locations.
 **)
-        | None          -> List.concat [this ; older]
+    | None          -> List.concat [this ; older]
 
 (** This next function may be unnecessary in ideal situations, but it does
 serve as a good safety for real-world use -- if any of the tags aren't closed
@@ -421,12 +419,12 @@ but more importantly, prepending each item to the front of the path greatly
 simplifies the complexity (which would be O(n²) otherwise) at the smaller cost
 of requiring the list be reversed afterward.
 **)
-    let rec triggerDown' elem cursor path =
-        match cursor with
-        | []             -> []
-        | (head :: tail) -> if head.Elem = elem
-                                then (head :: path)
-                                else triggerDown' elem tail (head :: path)
+let rec triggerDown' elem cursor path =
+    match cursor with
+    | []             -> []
+    | (head :: tail) -> if head.Elem = elem
+                            then (head :: path)
+                            else triggerDown' elem tail (head :: path)
 (** Allowing tail optimizations by including `path` in the arguments likely
 does not hugely affect anything, but I figure it's still good practice at the
 very least, and there's no harm in helping the phones along wherever possible.
@@ -435,37 +433,37 @@ very least, and there's no harm in helping the phones along wherever possible.
 (*** hide ***)
 // The literate docs are before the previous function
 (*** define: function-triggerDown ***)
-    let triggerDown store elem (data, cursor) =
-        match List.rev (triggerDown' elem cursor []) with
-        | []   -> data, cursor
-        | tags -> List.fold (triggerClose store) data tags
-                  , List.skip tags.Length cursor
+let triggerDown store elem (data, cursor) =
+    match List.rev (triggerDown' elem cursor []) with
+    | []   -> data, cursor
+    | tags -> List.fold (triggerClose store) data tags
+                , List.skip tags.Length cursor
 
 (*** hide ***)
 // The literate docs are before the section on callbacks
 (*** define: function-walk-header ***)
-    let rec walk store reader ((data, cursor) as state) =
-        match parseTag reader with
+let rec walk store reader ((data, cursor) as state) =
+    match parseTag reader with
 (*** define: function-walk-eof ***)
-        | EOF          -> let final = List.fold (triggerClose store) data cursor
-                          Seq.choose id final
+    | EOF          -> let final = List.fold (triggerClose store) data cursor
+                      Seq.choose id final
 (*** define: function-walk-startend ***)
-        | StartTag tag -> triggerOpen store tag
-                          walk store reader (startTag :: data, tag :: cursor)
-        | EndTag elem  -> match cursor with
-                          | []             -> walk store reader state
-                          | _              -> triggerDown store elem state
-                                              |> walk store reader
+    | StartTag tag -> triggerOpen store tag
+                      walk store reader (startTag :: data, tag :: cursor)
+    | EndTag elem  -> match cursor with
+                      | []             -> walk store reader state
+                      | _              -> triggerDown store elem state
+                                            |> walk store reader
 (*** define: function-walk-text ***)
-        | Text text    -> match cursor with
-                          | []             -> walk store reader state
-                          | (head :: tail) -> (data, { head with Text = addOption head.Text text } :: tail)
-                                              |> walk store reader
+    | Text text    -> match cursor with
+                      | []             -> walk store reader state
+                      | (head :: tail) -> (data, { head with Text = addOption head.Text text } :: tail)
+                                            |> walk store reader
 (*** define: function-walk-empty ***)
-        | EmptyTag tag -> triggerOpen store tag
-                          (triggerClose store (startTag :: data) tag, cursor)
-                          |> walk store reader
+    | EmptyTag tag -> triggerOpen store tag
+                      (triggerClose store (startTag :: data) tag, cursor)
+                      |> walk store reader
 
 (*** define: function-read ***)
-    let read store reader =
-        walk store reader ([], [])
+let read store reader =
+    walk store reader ([], [])

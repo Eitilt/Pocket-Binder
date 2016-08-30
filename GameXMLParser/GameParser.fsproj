@@ -7,14 +7,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f7c687d0-6a94-44ba-89af-0e1c45ba9270</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>GameXMLParser</RootNamespace>
-    <AssemblyName>GameXMLParser</AssemblyName>
+    <RootNamespace>GameParser</RootNamespace>
+    <AssemblyName>GameParser</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetProfile>netcore</TargetProfile>
     <TargetFSharpCoreVersion>3.7.4.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>GameXmlParser</Name>
+    <Name>GameParser</Name>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -25,7 +25,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\GameXMLParser.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\GameParser.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,7 +34,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\GameXMLParser.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\GameParser.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>
@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Content Include="mlp.xml" />
-    <Compile Include="Parser.fs" />
+    <Compile Include="XmlReader.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
