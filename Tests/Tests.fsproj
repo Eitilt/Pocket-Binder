@@ -76,8 +76,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameParser.Test.fs" />
     <None Include="packages.config" />
+    <Compile Include="GameParser.Test.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameXMLParser\GameParser.fsproj">

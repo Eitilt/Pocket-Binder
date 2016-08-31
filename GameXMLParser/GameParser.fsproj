@@ -42,8 +42,8 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.Portable.FSharp.Targets" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Content Include="mlp.xml" />
     <Compile Include="XmlReader.fs" />
+    <Content Include="mlp.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
