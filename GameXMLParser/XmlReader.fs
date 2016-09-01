@@ -92,9 +92,8 @@ simplify adding data to the non-trivial fields in `Tag`:
 **)
 let rec readAttrs (reader : XmlReader) tag =
     if reader.MoveToNextAttribute ()
-        then { tag with
-                    Atts = (reader.LocalName, reader.ReadContentAsString ()) :: tag.Atts
-                } |> readAttrs reader
+        then { tag with Atts = (reader.LocalName, reader.ReadContentAsString ()) :: tag.Atts }
+             |> readAttrs reader
         else tag
 (** Admittedly, `readAttrs` pretty much has to be a recursive function unless
 we want to create an explicit loop, but one of my favorite things about
@@ -144,11 +143,11 @@ let rec parseTag (reader : XmlReader) =
 Doing so in this function makes the most sense from the data perspective since
 we need to return some `Content` value; if we extract that handling to
 elsewhere, we'd need to write an additional `Content.Unknown` case.
-Additionally, this is where we increment the XML cursor, so it provides good
-encapsulation to continue doing so until we reach something we can use. The
-one thing that we lose by putting it here is the ability to customize the
-handling, but that's only rarely going to be helpful, and not at all in this
-particular project.
+Additionally, this is where we increment the 'XmlReader' cursor, so it
+provides good encapsulation to continue doing so until we reach something we
+can use. The one thing that we lose by putting it here is the ability to
+customize the handling, but that's only rarely going to be helpful, and not at
+all in this particular project.
 **)
                 | _                      -> parseTag reader
         else EOF
@@ -161,58 +160,58 @@ handle the behaviour behind the reading ourselves. Luckily, that's simply a
 loop -- or a recursive function call. We already take care of the increment
 step in `parseTag`, so all that's left is to handle that result and ensure we
 continue reading through the entire function. That function is included here,
-but it uses a few concepts described later.
+but it calls a few concepts described later.
 **)
-(*** include: function-walk-header ***)
-(** Ignoring the types for the moment, `store` contains a lookup table to
-transform any raw tag into a data type of the user's creation, which allows
-them to hopefully apply any optimizations they can to reduce the memory
-footprint, and `state` is a tuple allowing the system to track where in the
-file the `XmlReader` currently points and what data it has already processed;
-the user doesn't actually have to worry about the last, because they will
-typically call the wrapper function:
-**)
-(*** include: function-read ***)
+(*** include: function-read-header ***)
+(*** include: function-read-call ***)
+(** It is definitely best to implement this with a tail-recursive function as
+the code is run once for every type of node handled by `parseTag`, and could
+easily overflow the stack if each of those generated a wholly new function
+call with its own frame. Doing so, however, requires that the function is
+passed the path and the data resulting from the callbacks, and it's best to
+encapsulate doing so for simplicity and error prevention.
 
-(** Back to `walk`, while the code for each case isn't particularly long, it's
-no longer trivial, so it's probably best to explain them individually or in
+Of the parameters the user does need to provide, `store` contains a lookup
+table to transform any raw tag into a data type of the their own creation,
+which allows them to hopefully apply any optimizations they can to reduce the
+memory footprint, and `reader` is, unsurprisingly,
+**)
+(*** include: function-read-inner ***)
+
+(** While the code for each case isn't particularly long, reading it is no
+longer trivial, so it's probably best to explain them individually or in
 small groups:
 **)
 
-(*** include: function-walk-startend ***)
+(*** include: function-read-startend ***)
 (** For basic tags, we only have to mark when they start in the list of
 processed data and add the tag to the path. Most of the logic occurs when the
 tag is closed, as that's when we send the user both the data it contains and
 the raw tag itself, as described in the next section.
 **)
 
-(*** include: function-walk-empty ***)
+(*** include: function-read-empty ***)
 (** As mentioned, XmlReader doesn't generate any `EndTag`-type signal for
 empty tags, so we need to handle them separately. This is a simplification of
 the logic within `triggerDown` from before, as we know we're only going to be
 dealing with a single tag; likewise, since we essentially "enter" and then
-immediately "leave" the tag, there's no net change to `cursor`. We do have to
+immediately "leave" the tag, there's no net change to `path`. We do have to
 prepend a `Start` marker to the `data`, though, as `trigger` consumes that.
 **)
 
-(*** include: function-walk-text ***)
+(*** include: function-read-text ***)
 (** Text is even simpler, as we just need to add it to the nearest enclosing
 tag. This current implementation is probably going to format it weirdly if
-other tags are included within it (eg. HTML formatting) even beyond losing
+other tags are included within it (e.g. HTML formatting) even beyond losing
 track of where the latter were located, but fixing that's not a priority yet.
 **)
 
-(*** include: function-walk-eof ***)
+(*** include: function-read-eof ***)
 (** Finally, if we reach the end of the file, we want to complete whatever
 processing we've still got on the queue. `triggerDown` doesn't have a simple
 way to specify "do everything in this list", so we again duplicate its
 internals to finish the file out. Note that this will result in a list of all
 top-level tags in the XML file.
-
-Importantly, the entire function is able to be optimized through tail
-recursion: the code is run once for every tag in the file and every other type
-of node handled by `parseTag`, and could easily overflow the stack if each of
-those generated a wholly new function call with its own frame.
 **)
 
 (**
@@ -377,19 +376,19 @@ let triggerClose (store : CallbackStore<_>) data tag =
 (** 4.  If there is one, retrieve the data from the `Option` wrapper used to
         indicate start tags by running the list through `Seq.choose`; we know
         that `this` doesn't contain any separator elements (and so could use a
-        `Seq.map`), but we have to make the typechecker happy.
+        `Seq.map`), but we have to make the type-checker happy.
 **)
     | Some callback -> match (Seq.choose id this
 (** 5.  Send the callback the naked data...
 **)
-                                  |> callback tag) with
+                              |> callback tag) with
 (** 6.  ...and add what it returns to the head of the list *as long as* it did
         generate something; using `Option` to indicate `startTag`s makes the
         positive case simpler, but would confuse it if we added `None`s into
         the list (they're what indicates a tag break).
 **)
-                        | Some _ as tagData -> tagData :: older
-                        | None              -> older
+                       | Some _ as tagData -> tagData :: older
+                       | None              -> older
 (** 7.  If, however, there's no callback associated with the tag, simply join
         the lists back together. Note that the resulting list is not exactly
         the same as what came in (unless `older = []`) as the intermediate
@@ -409,67 +408,67 @@ part of a still-incomplete enclosing tag (spellcheck is beyond the scope of
 the parser). Be warned that it will still fail if the malformed tag is nested
 another with the same (but correctly-closed) name.
 **)
-(*** include: function-triggerDown ***)
+let triggerDown store elem (data, path) =
+(*** include: function-triggerDown-body ***)
 (** Note the returned value: because multiple tags may have been processed in
 a single call to `triggerDown`, we need to provide some way for the caller to
 know what tags remain. Since they're rarely going to be doing anything further
 to any that have already been processed, we just return the rest of the list.
-They can call `List.splitAt returned.Length cursor` if they really want it.
+They can call `List.splitAt returned.Length path` if they really want it.
 
 And this is the internal function for determining what tags to trigger. It's
 not actually hugely different than `List.takeWhile` with `head.Elem <> elem`
 other than including the first item for which the condition does not hold, but
-doing so inlined with the selection rather than calling `List.item
-takeWhile.Length cursor` afterward gets rid of a second O(n) lookup. Likewise,
-but more importantly, prepending each item to the front of the path greatly
-simplifies the complexity (which would be O(n²) otherwise) at the smaller cost
-of requiring the list be reversed afterward.
+doing so inlined with the main selection rather than calling `List.item
+takeWhile.Length path` afterward gets rid of a second O(n) lookup. Likewise,
+but more importantly, prepending each item to the front of the list instead of
+the end greatly simplifies the complexity (which would be O(n²) otherwise) at
+the smaller cost of requiring the list be reversed afterward.
 **)
-let rec triggerDown' elem cursor path =
-    match cursor with
-    | []             -> []
-    | (head :: tail) -> if head.Elem = elem
-                            then (head :: path)
-                            else triggerDown' elem tail (head :: path)
-(** Allowing tail optimizations by including `path` in the arguments likely
-does not hugely affect anything, but I figure it's still good practice at the
-very least, and there's no harm in helping the phones along wherever possible.
+    let rec triggerDown' elem toCheck foundPath =
+        match toCheck with
+        | []             -> []
+        | (head :: tail) -> if head.Elem = elem
+                                then (head :: foundPath)
+                                else triggerDown' elem tail (head :: foundPath)
+(** Allowing tail optimizations by passing `foundPath` likely does not hugely
+affect anything, but I figure it's still good practice at the very least, and
+there's no harm in helping the phones along wherever possible.
 **)
 
 (*** hide ***)
-// The literate docs are before the previous function
-(*** define: function-triggerDown ***)
-let triggerDown store elem (data, cursor) =
-    match List.rev (triggerDown' elem cursor []) with
-    | []   -> data, cursor
-    | tags -> List.fold (triggerClose store) data tags
-                , List.skip tags.Length cursor
+// The literate docs are at the beginning of the function
+(*** define: function-triggerDown-body ***)
+    match triggerDown' elem path [] |> List.rev with
+    | []   -> data, path
+    | tags -> (List.fold (triggerClose store) data tags), (List.skip tags.Length path)
 
 (*** hide ***)
 // The literate docs are before the section on callbacks
-(*** define: function-walk-header ***)
-let rec walk store reader ((data, cursor) as state) =
-    match parseTag reader with
-(*** define: function-walk-eof ***)
-    | EOF          -> let final = List.fold (triggerClose store) data cursor
-                      Seq.choose id final
-(*** define: function-walk-startend ***)
-    | StartTag tag -> triggerOpen store tag
-                      walk store reader (startTag :: data, tag :: cursor)
-    | EndTag elem  -> match cursor with
-                      | []             -> walk store reader state
-                      | _              -> triggerDown store elem state
-                                            |> walk store reader
-(*** define: function-walk-text ***)
-    | Text text    -> match cursor with
-                      | []             -> walk store reader state
-                      | (head :: tail) -> (data, { head with Text = addOption head.Text text } :: tail)
-                                            |> walk store reader
-(*** define: function-walk-empty ***)
-    | EmptyTag tag -> triggerOpen store tag
-                      (triggerClose store (startTag :: data) tag, cursor)
-                      |> walk store reader
-
-(*** define: function-read ***)
+(*** define: function-read-header ***)
 let read store reader =
-    walk store reader ([], [])
+(*** define: function-read-inner ***)
+    let rec read' store' reader' ((data, path) as state) =
+        match parseTag reader' with
+(*** define: function-read-eof ***)
+        | EOF          -> let final = List.fold (triggerClose store') data path
+                          Seq.choose id final
+(*** define: function-read-startend ***)
+        | StartTag tag -> triggerOpen store' tag
+                          read' store' reader' (startTag :: data, tag :: path)
+        | EndTag elem  -> match path with
+                          | []             -> read' store' reader' state
+                          | _              -> triggerDown store' elem state
+                                              |> read' store' reader'
+(*** define: function-read-text ***)
+        | Text text    -> match path with
+                          | []             -> read' store' reader' state
+                          | (head :: tail) -> (data, { head with Text = addOption head.Text text } :: tail)
+                                              |> read' store' reader'
+(*** define: function-read-empty ***)
+        | EmptyTag tag -> triggerOpen store' tag
+                          (triggerClose store' (startTag :: data) tag, path)
+                          |> read' store' reader'
+
+(*** define: function-read-call ***)
+    read' store reader ([], [])
