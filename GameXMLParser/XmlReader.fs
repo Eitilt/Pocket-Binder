@@ -113,6 +113,7 @@ The first smallest sensible segment to define is a way to represent the nodes
 in the file -- this will be similar to System.Xml.XmlNodeType, but allows
 passing the content alongside the type.
 **)
+//TODO: Support XmlNodeType.EntityReference
 type Content =
     | EOF
     | StartTag of Tag

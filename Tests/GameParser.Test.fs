@@ -7,22 +7,40 @@ open FsCheck
 open FsUnit
 open NUnit.Framework
 
-//TODO: Figure out how to write tests for `trigger`, `triggerDown`, and `walk`
+open System.Xml
+open System.Xml.Linq
+
 
 [<Test>]
 let ``Reader.addOption: left identity`` () =
-    Check.QuickThrowOnFailure <|
-    fun value ->
-        XmlReader.addOption None value |> should equal <| Some value
+    Check.VerboseThrowOnFailure <|
+        fun value ->
+            XmlReader.addOption None value |> should equal <| Some value
 
 [<Test>]
 let ``Reader.addOption: right identity`` () =
-    Check.QuickThrowOnFailure <|
-    fun (NonNull str) ->
-        XmlReader.addOption (Some str) "" |> should equal <| Some str
+    Check.VerboseThrowOnFailure <|
+        fun (NonNull str) ->
+            XmlReader.addOption (Some str) "" |> should equal <| Some str
 
 [<Test>]
 let ``Reader.addOption: associativity`` () =
-    Check.QuickThrowOnFailure <|
-    fun v1 v2 ->
-        XmlReader.addOption (Some v1) v2 |> should equal <| Some (v1 + v2)
+    Check.VerboseThrowOnFailure <|
+        fun v1 v2 ->
+            XmlReader.addOption (Some v1) v2 |> should equal <| Some (v1 + v2)
+
+
+(*TODO: Complete
+[<Test>]
+let ``Reader.parseTag: runs trigger on entering and exiting every element`` () =
+    Generators.Xml.register ()
+
+    Check.VerboseThrowOnFailure <|
+        fun (doc : XDocument) ->
+            let mutable current = doc.Root
+            // On entrance trigger: check that the element name is the same as `current`
+            // On exit trigger: if EmptyNode, select sibling
+            //                  else select parent then sibling
+            // Will need to loop through manually, though, as callback database is on higher layer
+            ()
+*)
