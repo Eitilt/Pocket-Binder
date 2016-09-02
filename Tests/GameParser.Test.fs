@@ -9,29 +9,20 @@ open NUnit.Framework
 
 //TODO: Figure out how to write tests for `trigger`, `triggerDown`, and `walk`
 
-// Testing against strings is slightly more specific than ideal, but that's
-// the only type the reader's going to use, anyway.
-
 [<Test>]
 let ``Reader.addOption: left identity`` () =
-    fun str ->
-        XmlReader.addOption None str |> should equal <| Some str
-
-    |> Prop.forAll Arb.from<string>
-    |> Check.QuickThrowOnFailure
+    Check.QuickThrowOnFailure <|
+    fun value ->
+        XmlReader.addOption None value |> should equal <| Some value
 
 [<Test>]
 let ``Reader.addOption: right identity`` () =
+    Check.QuickThrowOnFailure <|
     fun (NonNull str) ->
         XmlReader.addOption (Some str) "" |> should equal <| Some str
 
-    |> Prop.forAll Arb.from<NonNull<string>>
-    |> Check.QuickThrowOnFailure
-
 [<Test>]
 let ``Reader.addOption: associativity`` () =
-    fun (s1, s2) ->
-        XmlReader.addOption (Some s1) s2 |> should equal <| Some (s1 + s2)
-
-    |> Prop.forAll (Gen.two Arb.generate<string> |> Arb.fromGen)
-    |> Check.QuickThrowOnFailure
+    Check.QuickThrowOnFailure <|
+    fun v1 v2 ->
+        XmlReader.addOption (Some v1) v2 |> should equal <| Some (v1 + v2)
