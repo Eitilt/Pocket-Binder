@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SetDiscord" xml:space="preserve">
+    <value>Absolute Discord</value>
+    <comment>The name of the fourth released set</comment>
+  </data>
+  <data name="ColorBlue" xml:space="preserve">
+    <value>Blue</value>
+    <comment>The lable for the blue color</comment>
+  </data>
+  <data name="SideBoost" xml:space="preserve">
+    <value>Boosted</value>
+    <comment>The label for the side mane characters do not display at the beginning of the game</comment>
+  </data>
+  <data name="SideBoostGC" xml:space="preserve">
+    <value>20% Cooler</value>
+    <comment>See "Boosted", but the GenCon set used different text</comment>
+  </data>
+  <data name="SetGames" xml:space="preserve">
+    <value>Crystal Games</value>
+    <comment>The name of the third released set</comment>
+  </data>
+  <data name="SetNights" xml:space="preserve">
+    <value>Canterlot Nights</value>
+    <comment>The name of the second released set</comment>
+  </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+    <comment>The label for the "color" attribute</comment>
+  </data>
+  <data name="RareComm" xml:space="preserve">
+    <value>Common</value>
+    <comment>The label for common cards</comment>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Token Cost</value>
+    <comment>The label for the "cost" attribute</comment>
+  </data>
+  <data name="Effect" xml:space="preserve">
+    <value>Game Text</value>
+    <comment>The label for the "effect" attribute</comment>
+  </data>
+  <data name="SetEqOdys" xml:space="preserve">
+    <value>Equestrian Odysseys</value>
+    <comment>The name of the fifth released set</comment>
+  </data>
+  <data name="RareFix" xml:space="preserve">
+    <value>Fixed</value>
+    <comment>The label for fixed-rarity cards</comment>
+  </data>
+  <data name="LineFoil" xml:space="preserve">
+    <value>Foils</value>
+    <comment>The label for cards numbered as foils</comment>
+  </data>
+  <data name="GameTitle" xml:space="preserve">
+    <value>My Little Pony CCG</value>
+    <comment>The displayed title of the game</comment>
+  </data>
+  <data name="GenCon" xml:space="preserve">
+    <value>GenCon</value>
+    <comment>The name of the prototype set released at GenCon</comment>
+  </data>
+  <data name="SetMagic" xml:space="preserve">
+    <value>High Magic</value>
+    <comment>The name of the sixth released set</comment>
+  </data>
+  <data name="Legality" xml:space="preserve">
+    <value>Tournament Legal</value>
+    <comment>The label for the "legal" attribute</comment>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Series</value>
+    <comment>The label for the "line" attribute</comment>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Play Location</value>
+    <comment>The label for the "location" attribute</comment>
+  </data>
+  <data name="LocHome" xml:space="preserve">
+    <value>Home</value>
+    <comment>The label for the "home" location entry</comment>
+  </data>
+  <data name="LocHomeText" xml:space="preserve">
+    <value>Play to your home.</value>
+    <comment>The game text for the "home" location entry</comment>
+  </data>
+  <data name="LocProb" xml:space="preserve">
+    <value>Problem</value>
+    <comment>The label for the "problem" location entry</comment>
+  </data>
+  <data name="LocProbText" xml:space="preserve">
+    <value>Play on a Problem.</value>
+    <comment>The game text for the "problem" location entry</comment>
+  </data>
+  <data name="LocFriend" xml:space="preserve">
+    <value>Friend</value>
+    <comment>The label for the "friend" location entry</comment>
+  </data>
+  <data name="LocFriendText" xml:space="preserve">
+    <value>Play to a Friend.</value>
+    <comment>The game text for the "friend" location entry</comment>
+  </data>
+  <data name="LocOpp" xml:space="preserve">
+    <value>Opponent's Friend</value>
+    <comment>The label for the "opponent" location entry</comment>
+  </data>
+  <data name="LocOppText" xml:space="preserve">
+    <value>Play on an opponent's Friend.</value>
+    <comment>The game text for the "opponent" location entry</comment>
+  </data>
+  <data name="LineMain" xml:space="preserve">
+    <value>Main Series</value>
+    <comment>The label for the line of standard cards</comment>
+  </data>
+  <data name="SetMarks" xml:space="preserve">
+    <value>Marks in Time</value>
+    <comment>The name of the seventh released set</comment>
+  </data>
+  <data name="SetBlockNone" xml:space="preserve">
+    <value>Ungrouped</value>
+    <comment>The group label for sets released outside any block</comment>
+  </data>
+  <data name="ColorNone" xml:space="preserve">
+    <value>No Color</value>
+    <comment>The label for power/cost lacking a color</comment>
+  </data>
+  <data name="RareNone" xml:space="preserve">
+    <value>No Rarity</value>
+    <comment>The label for cards lacking a rarity</comment>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+    <comment>The label for the "number" attribute</comment>
+  </data>
+  <data name="SetBlockOdys" xml:space="preserve">
+    <value>Odyssey Block</value>
+    <comment>The group label for the second released block of sets</comment>
+  </data>
+  <data name="ColorOrange" xml:space="preserve">
+    <value>Orange</value>
+    <comment>The label for the orange color</comment>
+  </data>
+  <data name="ColorPink" xml:space="preserve">
+    <value>Pink</value>
+    <comment>The label for the pink color</comment>
+  </data>
+  <data name="Power" xml:space="preserve">
+    <value>Power</value>
+    <comment>The label for the "power" attribute</comment>
+  </data>
+  <data name="SetBlockPrem" xml:space="preserve">
+    <value>Premiere Block</value>
+    <comment>The group label for the first released block of sets</comment>
+  </data>
+  <data name="SetPrem" xml:space="preserve">
+    <value>Premiere</value>
+    <comment>The name of the first released set</comment>
+  </data>
+  <data name="LinePromo" xml:space="preserve">
+    <value>Promotional</value>
+    <comment>The label for cards numbered in the promo line</comment>
+  </data>
+  <data name="SetPromo" xml:space="preserve">
+    <value>Promotional</value>
+    <comment>The name of the "set" of cards released promotionally</comment>
+  </data>
+  <data name="ColorPurple" xml:space="preserve">
+    <value>Purple</value>
+    <comment>The label for the purple color</comment>
+  </data>
+  <data name="RareRare" xml:space="preserve">
+    <value>Rare</value>
+    <comment>The label for rare cards</comment>
+  </data>
+  <data name="Rarity" xml:space="preserve">
+    <value>Rarity</value>
+    <comment>The label for the "rarity" attribute</comment>
+  </data>
+  <data name="Require" xml:space="preserve">
+    <value>Color Requirement</value>
+    <comment>The label for the "req" attribute</comment>
+  </data>
+  <data name="LineRoyal" xml:space="preserve">
+    <value>Royal Rares</value>
+    <comment>The label for cards numbered as royal rares</comment>
+  </data>
+  <data name="RareRoyal" xml:space="preserve">
+    <value>Royal Rare</value>
+    <comment>The rarity label for royal rare cards</comment>
+  </data>
+  <data name="SetRave" xml:space="preserve">
+    <value>Rock and Rave</value>
+    <comment>The name of the first released mini-set</comment>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>Set</value>
+    <comment>The label for the "set" attribute</comment>
+  </data>
+  <data name="Side" xml:space="preserve">
+    <value>Status</value>
+    <comment>The label for the "side" attribute</comment>
+  </data>
+  <data name="SetSol" xml:space="preserve">
+    <value>Celestial Solstice</value>
+    <comment>The name of the second released mini-set</comment>
+  </data>
+  <data name="SetSands" xml:space="preserve">
+    <value>Sands of Time</value>
+    <comment>The placeholder name of the future, unannounced set with Dr. Hooves, Time Walker and Twilight Sparkle, Paradox Pony</comment>
+  </data>
+  <data name="SideStart" xml:space="preserve">
+    <value>Start</value>
+    <comment>The label for the side mane characters display at the beginning of the game</comment>
+  </data>
+  <data name="RareSuper" xml:space="preserve">
+    <value>Super Rare</value>
+    <comment>The label for super rare cards</comment>
+  </data>
+  <data name="TimeFce" xml:space="preserve">
+    <value>Faceoff</value>
+    <comment>The label for cards that must be played during a faceoff</comment>
+  </data>
+  <data name="TimeFcePrb" xml:space="preserve">
+    <value>Problem Faceoff</value>
+    <comment>The label for cards that must be played during a problem faceoff</comment>
+  </data>
+  <data name="TimeFceTrb" xml:space="preserve">
+    <value>Troublemaker Faceoff</value>
+    <comment>The label for cards that must be played during a troublemaker faceoff</comment>
+  </data>
+  <data name="TimeImm" xml:space="preserve">
+    <value>Immediate</value>
+    <comment>The label for cards that may be played at any time</comment>
+  </data>
+  <data name="TimeMain" xml:space="preserve">
+    <value>Main Phase</value>
+    <comment>The label for cards that must be played during the main phase</comment>
+  </data>
+  <data name="TimeRea" xml:space="preserve">
+    <value>Reaction</value>
+    <comment>The label for cards that must be played as a reaction</comment>
+  </data>
+  <data name="TimeReaFce" xml:space="preserve">
+    <value>Faceoff Reaction</value>
+    <comment>The label for cards that must be played as a reaction to a faceoff</comment>
+  </data>
+  <data name="TimeReaPrb" xml:space="preserve">
+    <value>Problem Faceoff Reaction</value>
+    <comment>The label for cards that must be played as a reaction to a problem faceoff</comment>
+  </data>
+  <data name="TimeReaTrb" xml:space="preserve">
+    <value>Troublemaker Faceoff Reaction</value>
+    <comment>The label for cards that must be played as a reaction to a troublemaker faceoff</comment>
+  </data>
+  <data name="TimeTrb" xml:space="preserve">
+    <value>Troublemaker Phase</value>
+    <comment>The label for cards that must be played during the troublemaker phase</comment>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+    <comment>The label for the "title" attribute</comment>
+  </data>
+  <data name="LineToken" xml:space="preserve">
+    <value>Tokens</value>
+    <comment>The label for the line of tokens</comment>
+  </data>
+  <data name="RareUltra" xml:space="preserve">
+    <value>Ultra Rare</value>
+    <comment>The label for ultra rare cards</comment>
+  </data>
+  <data name="RareUnc" xml:space="preserve">
+    <value>Uncommon</value>
+    <comment>The label for uncommon cards</comment>
+  </data>
+  <data name="LineNone" xml:space="preserve">
+    <value>Unnumbered</value>
+    <comment>The label for a line printed without any printed number</comment>
+  </data>
+  <data name="ColorWhite" xml:space="preserve">
+    <value>White</value>
+    <comment>The label for the white color</comment>
+  </data>
+  <data name="ColorYellow" xml:space="preserve">
+    <value>Yellow</value>
+    <comment>The label for the yellow color</comment>
+  </data>
+  <data name="Confront" xml:space="preserve">
+    <value>Confrontation Requirements</value>
+    <comment>The label for the "confront" attribute</comment>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home Limit</value>
+    <comment>The label for the "hlimit" attribute</comment>
+  </data>
+  <data name="KeyCalm" xml:space="preserve">
+    <value>Calming</value>
+    <comment>The label for the "calming" keyword</comment>
+  </data>
+  <data name="KeyCare" xml:space="preserve">
+    <value>Caretaker</value>
+    <comment>The label for the "caretaker" keyword</comment>
+  </data>
+  <data name="KeyComp" xml:space="preserve">
+    <value>Competitive</value>
+    <comment>The label for the "competitive" keyword</comment>
+  </data>
+  <data name="KeyDilig" xml:space="preserve">
+    <value>Diligent</value>
+    <comment>The label for the "diligent" keyword</comment>
+  </data>
+  <data name="KeyEccen" xml:space="preserve">
+    <value>Eccentric</value>
+    <comment>The label for the "eccentric" keyword</comment>
+  </data>
+  <data name="KeyHasty" xml:space="preserve">
+    <value>Hasty</value>
+    <comment>The label for the "hasty" keyword</comment>
+  </data>
+  <data name="KeyInsp" xml:space="preserve">
+    <value>Inspired</value>
+    <comment>The label for the "inspired" keyword</comment>
+  </data>
+  <data name="KeyMetic" xml:space="preserve">
+    <value>Meticulous</value>
+    <comment>The label for the "meticulous" keyword</comment>
+  </data>
+  <data name="KeyPers" xml:space="preserve">
+    <value>Persistent</value>
+    <comment>The label for the "persistent" keyword</comment>
+  </data>
+  <data name="KeyPrep" xml:space="preserve">
+    <value>Prepared</value>
+    <comment>The label for the "prepared" keyword</comment>
+  </data>
+  <data name="KeyPrism" xml:space="preserve">
+    <value>Prismatic</value>
+    <comment>The label for the "prismatic" keyword</comment>
+  </data>
+  <data name="KeyPump" xml:space="preserve">
+    <value>Pumped</value>
+    <comment>The label for the "pumped" keyword</comment>
+  </data>
+  <data name="KeyRand" xml:space="preserve">
+    <value>Random</value>
+    <comment>The label for the "random" keyword</comment>
+  </data>
+  <data name="KeyShowy" xml:space="preserve">
+    <value>Showy</value>
+    <comment>The label for the "showy" keyword</comment>
+  </data>
+  <data name="KeyStart" xml:space="preserve">
+    <value>Starting Problem</value>
+    <comment>The label for the "starting" keyword</comment>
+  </data>
+  <data name="KeyStubb" xml:space="preserve">
+    <value>Stubborn</value>
+    <comment>The label for the "stubborn" keyword</comment>
+  </data>
+  <data name="KeyStudy" xml:space="preserve">
+    <value>Studious</value>
+    <comment>The label for the "studious" keyword</comment>
+  </data>
+  <data name="KeySupp" xml:space="preserve">
+    <value>Supportive</value>
+    <comment>The label for the "supportive" keyword</comment>
+  </data>
+  <data name="KeySwift" xml:space="preserve">
+    <value>Swift</value>
+    <comment>The label for the "swift" keyword</comment>
+  </data>
+  <data name="KeyTeam" xml:space="preserve">
+    <value>Teamwork</value>
+    <comment>The label for the "teamwork" keyword</comment>
+  </data>
+  <data name="KeyVex" xml:space="preserve">
+    <value>Vexing</value>
+    <comment>The label for the "vexing" keyword</comment>
+  </data>
+  <data name="KeyVill" xml:space="preserve">
+    <value>Villain</value>
+    <comment>The label for the "villain" keyword</comment>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>Keyword</value>
+    <comment>The label for the "keyword" attribute</comment>
+  </data>
+  <data name="Oppose" xml:space="preserve">
+    <value>Opposing Confrontation Requirement</value>
+    <comment>The label for the "oppose" attribute</comment>
+  </data>
+  <data name="Points" xml:space="preserve">
+    <value>Bonus Points</value>
+    <comment>The label for the "points" attribute</comment>
+  </data>
+  <data name="Trait" xml:space="preserve">
+    <value>Trait</value>
+    <comment>The label for the "trait" attribute</comment>
+  </data>
+  <data name="TraitAlic" xml:space="preserve">
+    <value>Alicorn</value>
+    <comment>The label for the "alicorn" trait</comment>
+  </data>
+  <data name="TraitAlly" xml:space="preserve">
+    <value>Ally</value>
+    <comment>The label for the "ally" trait</comment>
+  </data>
+  <data name="TraitBreezie" xml:space="preserve">
+    <value>Breezie</value>
+    <comment>The label for the "breezie" trait</comment>
+  </data>
+  <data name="TraitBuff" xml:space="preserve">
+    <value>Buffalo</value>
+    <comment>The label for the "buffalo" trait</comment>
+  </data>
+  <data name="TraitChange" xml:space="preserve">
+    <value>Changeling</value>
+    <comment>The label for the "changeling" trait</comment>
+  </data>
+  <data name="TraitChaos" xml:space="preserve">
+    <value>Chaotic</value>
+    <comment>The label for the "chaotic" trait</comment>
+  </data>
+  <data name="TraitCow" xml:space="preserve">
+    <value>Cow</value>
+    <comment>The label for the "cow" trait</comment>
+  </data>
+  <data name="TraitCritter" xml:space="preserve">
+    <value>Critter</value>
+    <comment>The label for the "critter" trait</comment>
+  </data>
+  <data name="TraitCrys" xml:space="preserve">
+    <value>Crystal</value>
+    <comment>The label for the "crystal" trait</comment>
+  </data>
+  <data name="TraitGroupChar" xml:space="preserve">
+    <value>Characters</value>
+    <comment>The group label for traits appearing on mane characters and friends</comment>
+  </data>
+  <data name="TraitGroupMult" xml:space="preserve">
+    <value>Multiple</value>
+    <comment>The group label for traits appearing on multiple types of cards</comment>
+  </data>
+  <data name="TraitTone" xml:space="preserve">
+    <value>Pony Tone</value>
+    <comment>The label for the "ponytone" trait</comment>
+  </data>
+  <data name="TraitUniq" xml:space="preserve">
+    <value>Unique</value>
+    <comment>The label for the "unique" trait</comment>
+  </data>
+  <data name="TraitDonk" xml:space="preserve">
+    <value>Donkey</value>
+    <comment>The label for the "Donkey" trait</comment>
+  </data>
+  <data name="TraitDrac" xml:space="preserve">
+    <value>Draconequus</value>
+    <comment>The label for the "draconequus" trait</comment>
+  </data>
+  <data name="TraitDragon" xml:space="preserve">
+    <value>Dragon</value>
+    <comment>The label for the "dragon" trait</comment>
+  </data>
+  <data name="TraitGriff" xml:space="preserve">
+    <value>Griffon</value>
+    <comment>The label for the "griffon" trait</comment>
+  </data>
+  <data name="TraitEarth" xml:space="preserve">
+    <value>Earth Pony</value>
+    <comment>The label for the "earth" trait</comment>
+  </data>
+  <data name="TraitElder" xml:space="preserve">
+    <value>Elder</value>
+    <comment>The label for the "elder" trait</comment>
+  </data>
+  <data name="TraitFoal" xml:space="preserve">
+    <value>Foal</value>
+    <comment>The label for the "foal" trait</comment>
+  </data>
+  <data name="TraitMino" xml:space="preserve">
+    <value>Minotaur</value>
+    <comment>The label for the "minotaur" trait</comment>
+  </data>
+  <data name="TraitPeg" xml:space="preserve">
+    <value>Pegasus</value>
+    <comment>The label for the "pegasus" trait</comment>
+  </data>
+  <data name="TraitPerf" xml:space="preserve">
+    <value>Performer</value>
+    <comment>The label for the "performer" trait</comment>
+  </data>
+  <data name="TraitPower" xml:space="preserve">
+    <value>Power Pony</value>
+    <comment>The label for the "powerpony" trait</comment>
+  </data>
+  <data name="TraitRock" xml:space="preserve">
+    <value>Rock</value>
+    <comment>The label for the "rock" trait</comment>
+  </data>
+  <data name="TraitRoyal" xml:space="preserve">
+    <value>Royalty</value>
+    <comment>The label for the "royalty" trait</comment>
+  </data>
+  <data name="TraitSerp" xml:space="preserve">
+    <value>Sea Serpent</value>
+    <comment>The label for the "serpent" trait</comment>
+  </data>
+  <data name="TraitSiren" xml:space="preserve">
+    <value>Siren</value>
+    <comment>The label for the "siren" trait</comment>
+  </data>
+  <data name="TraitTree" xml:space="preserve">
+    <value>Tree</value>
+    <comment>The label for the "tree" trait</comment>
+  </data>
+  <data name="TraitUnicorn" xml:space="preserve">
+    <value>Unicorn</value>
+    <comment>The label for the "unicorn" trait</comment>
+  </data>
+  <data name="TraitYak" xml:space="preserve">
+    <value>Yak</value>
+    <comment>The label for the "yak" trait</comment>
+  </data>
+  <data name="TraitZebra" xml:space="preserve">
+    <value>Zebra</value>
+    <comment>The label for the "zebra" trait</comment>
+  </data>
+  <data name="TraitGroupEvent" xml:space="preserve">
+    <value>Events</value>
+    <comment>The group label for traits appearing on events</comment>
+  </data>
+  <data name="TraitGotcha" xml:space="preserve">
+    <value>Gotcha</value>
+    <comment>The label for the "gotcha" trait</comment>
+  </data>
+  <data name="TraitSDown" xml:space="preserve">
+    <value>Showdown</value>
+    <comment>The label for the "showdown" trait</comment>
+  </data>
+  <data name="TraitSong" xml:space="preserve">
+    <value>Song</value>
+    <comment>The label for the "song" trait</comment>
+  </data>
+  <data name="TraitGroupRes" xml:space="preserve">
+    <value>Resources</value>
+    <comment>The group label for traits appearing on resources</comment>
+  </data>
+  <data name="TraitAcc" xml:space="preserve">
+    <value>Accessory</value>
+    <comment>The label for the "accessory" trait</comment>
+  </data>
+  <data name="TraitArmor" xml:space="preserve">
+    <value>Armor</value>
+    <comment>The label for the "armor" trait</comment>
+  </data>
+  <data name="TraitArtif" xml:space="preserve">
+    <value>Artifact</value>
+    <comment>The label for the "artifact" trait</comment>
+  </data>
+  <data name="TraitAsset" xml:space="preserve">
+    <value>Asset</value>
+    <comment>The label for the "asset" trait</comment>
+  </data>
+  <data name="TraitCond" xml:space="preserve">
+    <value>Condition</value>
+    <comment>The label for the "condition" trait</comment>
+  </data>
+  <data name="TraitLoc" xml:space="preserve">
+    <value>Location</value>
+    <comment>The label for the "location" trait</comment>
+  </data>
+  <data name="TraitMail" xml:space="preserve">
+    <value>Mailbox</value>
+    <comment>The label for the "mailbox" trait</comment>
+  </data>
+  <data name="TraitRep" xml:space="preserve">
+    <value>Report</value>
+    <comment>The label for the "report" trait</comment>
+  </data>
+  <data name="TraitGroupTroub" xml:space="preserve">
+    <value>Troublemakers</value>
+    <comment>The group label for traits appearing on troublemakers</comment>
+  </data>
+  <data name="TraitEpic" xml:space="preserve">
+    <value>Epic</value>
+    <comment>The label for the "epic" trait</comment>
+  </data>
+  <data name="CardEvent" xml:space="preserve">
+    <value>Event</value>
+    <comment>The name of the "event" type of cards</comment>
+  </data>
+  <data name="CardFriend" xml:space="preserve">
+    <value>Friend</value>
+    <comment>The name of the "friend" type of cards</comment>
+  </data>
+  <data name="CardMane" xml:space="preserve">
+    <value>Mane Character</value>
+    <comment>The name of the "mane" type of cards</comment>
+  </data>
+  <data name="CardProb" xml:space="preserve">
+    <value>Problem</value>
+    <comment>The name of the "problem" type of cards</comment>
+  </data>
+  <data name="CardRes" xml:space="preserve">
+    <value>Resource</value>
+    <comment>The name of the "resource" type of cards</comment>
+  </data>
+  <data name="CardResDilem" xml:space="preserve">
+    <value>Dilemma</value>
+    <comment>The name of the "dilemma" subtype of resource</comment>
+  </data>
+  <data name="CardTroub" xml:space="preserve">
+    <value>Troublemaker</value>
+    <comment>The name of the "troublemaker" type of cards</comment>
+  </data>
+  <data name="Flavor" xml:space="preserve">
+    <value>Flavor Text</value>
+    <comment>The label for the "flavor" attribute</comment>
+  </data>
+</root>

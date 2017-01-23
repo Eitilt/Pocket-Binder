@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="utf-8"?>
+<game xmlns="com.gmail.ag-eitilt.pocketbinder.definition.game"
+	  id="mlp"
+	  label="GameTitle">
+	<!-- TODO: Create/download icons -->
+	<!-- TODO: Add errata and banlist -->
+
+	<data>
+
+		<!-- Sets -->
+		<field id="set"
+			   sort="ordered"
+			   label="Set">
+			<data>
+				<decorator id="short"
+						   scope="definition" />
+			</data>
+			<group label="SetBlockPrem">
+				<entry id="pr"
+					   label="SetPrem">
+					<decorator name="short">PR</decorator>
+				</entry>
+				<entry id="cn"
+					   label="SetNights">
+					<decorator name="short">CN</decorator>
+				</entry>
+				<entry id="cg"
+					   label="SetGames">
+					<decorator name="short">CG</decorator>
+				</entry>
+				<entry id="ad"
+					   label="SetDiscord">
+					<decorator name="short">AD</decorator>
+				</entry>
+			</group>
+			<group label="SetBlockOdys">
+				<entry id="eo"
+					   label="SetEqOdys">
+					<decorator name="short">EO</decorator>
+				</entry>
+				<entry id="hm"
+					   label="SetMagic">
+					<decorator name="short">HM</decorator>
+				</entry>
+				<entry id="mt"
+					   label="SetMarks">
+					<decorator name="short">MT</decorator>
+				</entry>
+			</group>
+			<group label="SetBlockNone">
+				<entry id="gf"
+					   label="SetPromo">
+					<decorator name="short">GF</decorator>
+				</entry>
+				<entry id="gc"
+					   label="SetGenCon">
+					<decorator name="short">GC</decorator>
+				</entry>
+				<entry id="rr"
+					   label="SetRave">
+					<decorator name="short">RR</decorator>
+				</entry>
+				<entry id="cs"
+					   label="SetSol">
+					<decorator name="short">CS</decorator>
+				</entry>
+				<entry id="st"
+					   label="SetSands">
+					<decorator name="short">ST</decorator>
+				</entry>
+			</group>
+		</field>
+
+		<!-- Lines -->
+		<field id="line"
+			   visibility="filterOnly"
+			   label="Line">
+			<data>
+				<decorator id="short"
+						   scope="definition">
+					<default></default>
+				</decorator>
+			</data>
+			<entry id="none"
+				   label="LineNone" />
+			<entry id="m"
+				   label="LineMain" />
+			<entry id="f"
+				   label="LineFoil">
+				<decorator name="short">f</decorator>
+			</entry>
+			<entry id="p"
+				   label="LinePromo">
+				<decorator name="short">pf</decorator>
+			</entry>
+			<entry id="r"
+				   label="LineRoyal">
+				<decorator name="short">rr</decorator>
+			</entry>
+			<entry id="t"
+				   label="LineToken" />
+		</field>
+
+		<!-- Number -->
+		<!-- TODO: Sort by joint line and number -->
+		<int id="number"
+			 visibility="filterOnly"
+			 label="Number" />
+
+		<!-- Rarities -->
+		<field id="rarity"
+			   sort="ordered"
+			   label="Rarity">
+			<data>
+				<decorator id="short"
+						   scope="definition">
+					<default></default>
+				</decorator>
+			</data>
+			<entry id="none"
+				   label="RareNone" />
+			<entry id="f"
+				   label="RareFix">
+				<decorator name="short">F</decorator>
+			</entry>
+			<entry id="c"
+				   label="RareComm">
+				<decorator name="short">C</decorator>
+			</entry>
+			<entry id="u"
+				   label="RareUnc">
+				<decorator name="short">U</decorator>
+			</entry>
+			<entry id="r"
+				   label="RareRare">
+				<decorator name="short">R</decorator>
+			</entry>
+			<entry id="sr"
+				   label="RareSuper">
+				<decorator name="short">SR</decorator>
+			</entry>
+			<entry id="ur"
+				   label="RareUltra">
+				<decorator name="short">UR</decorator>
+			</entry>
+			<entry id="rr"
+				   label="RareRoyal">
+				<decorator name="short">RR</decorator>
+			</entry>
+		</field>
+
+		<!-- Title -->
+		<text id="title"
+			  visibility="sortOnly"
+			  label="Title">
+			<data>
+				<text id="subtitle" />
+			</data>
+		</text>
+
+		<!-- Tournament legality -->
+		<bool id="legal"
+			  label="Legality">
+			<default>true</default>
+		</bool>
+
+		<!-- Colors -->
+		<field id="color"
+			   sort="ordered"
+			   label="Color">
+			<data>
+				<color id="base"
+					   scope="definition" />
+			</data>
+			<default>none</default>
+			<entry id="none"
+				   label="ColorNone">
+				<color name="base">#D4E3CD</color>
+			</entry>
+			<entry id="blue"
+				   label="ColorBlue">
+				<color name="base">#B4DAF0</color>
+			</entry>
+			<entry id="orange"
+				   label="ColorOrange">
+				<color name="base">#F4CFA8</color>
+			</entry>
+			<entry id="pink"
+				   label="ColorPink">
+				<color name="base">#F0C2D4</color>
+			</entry>
+			<entry id="purple"
+				   label="ColorPurple">
+				<color name="base">#E6D7F3</color>
+			</entry>
+			<entry id="white"
+				   label="ColorWhite">
+				<color name="base">#EAECEB</color>
+			</entry>
+			<entry id="yellow"
+				   label="ColorYellow">
+				<color name="base">#FFFBB5</color>
+			</entry>
+		</field>
+
+		<!-- Status -->
+		<field id="side"
+			   visibility="none"
+			   label="Side">
+			<entry id="s"
+				   label="SideStart" />
+			<entry id="b"
+				   label="SideBoost" />
+			<entry id="b_gc"
+				   label="SideBoostGC" />
+			<alias name="b_gc"
+				   as="b" />
+		</field>
+
+		<!-- Power -->
+		<int id="power"
+			 label="Power" />
+
+		<!-- Token cost -->
+		<int id="cost"
+			 label="Cost" />
+
+		<!-- Color requirement -->
+		<int id="req"
+			 label="Require">
+			<data>
+				<ref id="color"
+					 name="color" />
+			</data>
+		</int>
+
+		<!-- Game text -->
+		<text id="effect"
+			  visibility="none"
+			  label="Effect">
+			<data>
+				<field id="timing">
+					<entry id="imm"
+						   label="TimeImm" />
+					<entry id="main"
+						   label="TimeMain" />
+					<entry id="trb"
+						   label="TimeTrb" />
+					<entry id="fce"
+						   label="TimeFce" />
+					<entry id="fce_prb"
+						   label="TimeFcePrb" />
+					<entry id="fce_trb"
+						   label="TimeFceTrb" />
+					<entry id="rea"
+						   label="TimeRea" />
+					<entry id="rea_fce"
+						   label="TimeReaFce" />
+					<entry id="rea_prb"
+						   label="TimeReaPrb" />
+					<entry id="rea_trb"
+						   label="TimeReaTrb" />
+				</field>
+			</data>
+		</text>
+
+		<!-- Play location -->
+		<field id="location"
+			   visibility="filterOnly"
+			   label="Location">
+			<data>
+				<resx id="desc"
+					  scope="definition" />
+			</data>
+			<entry id="home"
+				   label="LocHome">
+				<resx name="desc">LocHomeText</resx>
+			</entry>
+			<entry id="problem"
+				   label="LocProb">
+				<resx name="desc">LocProbText</resx>
+			</entry>
+			<entry id="friend"
+				   label="LocFriend">
+				<resx name="desc">LocFriendText</resx>
+			</entry>
+			<entry id="opponent"
+				   label="LocOpp">
+				<resx name="desc">LocOppText</resx>
+			</entry>
+		</field>
+
+		<!-- Bonus points -->
+		<int id="points"
+			 label="Points" />
+
+		<!-- Own confront cost -->
+		<int id="confront"
+			 label="Confront">
+			<data>
+				<ref id="color"
+					 name="color" />
+				<bool id="negate">
+					<default>false</default>
+				</bool>
+			</data>
+		</int>
+
+		<!-- Opposing confront cost -->
+		<int id="oppose"
+			 label="Oppose" />
+
+		<!-- Keywords -->
+		<field id="keyword"
+			   visibility="filterOnly"
+			   label="Keyword">
+			<data>
+				<text id="effect"
+					  scope="definition" />
+				<int id="scale">
+					<default>0</default>
+				</int>
+			</data>
+			<entry id="calming"
+				   label="KeyCalm">
+				<text name="effect">
+					<lang code="en">
+						When an opposing Friend enters play here, that Friend gets
+						-<ref name="scale" /> power until the end of the turn.
+					</lang>
+				</text>
+			</entry>
+			<entry id="caretaker"
+				   label="KeyCare">
+				<text name="effect">
+					<lang code="en">
+						+1 power while at a Problem with at least one of your Critter
+						Friends.
+					</lang>
+				</text>
+			</entry>
+			<entry id="competitive"
+				   label="KeyComp">
+				<text name="effect">
+					<lang code="en">
+						While involved in a faceoff, this card has
+						+<ref name="scale" /> power.
+					</lang>
+				</text>
+			</entry>
+			<entry id="diligent"
+				   label="KeyDilig">
+				<text name="effect">
+					<lang code="en">
+						When you win a faceoff involving this card, you may put
+						<ref name="scale" /> +1 power counters on this card.
+					</lang>
+				</text>
+			</entry>
+			<entry id="eccentric"
+				   label="KeyEccen">
+				<text name="effect">
+					<lang code="en">
+						Opponents need +<ref name="scale" /> wild power to confront
+						this card's Problem.
+					</lang>
+				</text>
+			</entry>
+			<entry id="hasty"
+				   label="KeyHasty">
+				<text name="effect">
+					<lang code="en">
+						You may play this card as an Immediate action.
+					</lang>
+				</text>
+			</entry>
+			<entry id="inspired"
+				   label="KeyInsp">
+				<text name="effect">
+					<lang code="en">
+						At the start of your Main Phase, look at a number of cards from the
+						top of an opponent's draw deck equal to the number of cards with
+						Inspired you control. Put any number of them on top of the deck in
+						any order, and the rest on the bottom.
+					</lang>
+				</text>
+			</entry>
+			<entry id="meticulous"
+				   label="KeyMetic">
+				<text name="effect">
+					<lang code="en">
+						At the start of your turn, you may look at the top
+						<ref name="scale" /> cards of your deck and put them either on
+						the top or bottom of your deck in any order.
+					</lang>
+				</text>
+			</entry>
+			<entry id="persistent"
+				   label="KeyPers">
+				<text name="effect">
+					<lang code="en">
+						If this card would leave play, you may frighten it instead.
+					</lang>
+				</text>
+			</entry>
+			<entry id="prepared"
+				   label="KeyPrep">
+				<text name="effect">
+					<lang code="en">
+						When an opponent starts a faceoff here, gain 1 action token.
+					</lang>
+				</text>
+			</entry>
+			<entry id="prismatic"
+				   label="KeyPrism">
+				<text name="effect">
+					<lang code="en">
+						This card also has the colors of all your other Crystal characters.
+					</lang>
+				</text>
+			</entry>
+			<entry id="pumped"
+				   label="KeyPump">
+				<text name="effect">
+					<lang code="en">
+						Once per faceoff, during a faceoff involving this card, if you would
+						put a flipped card on the bottom of your deck you may banish it to
+						beneath this card instead.
+					</lang>
+				</text>
+			</entry>
+			<entry id="random"
+				   label="KeyRand">
+				<text name="effect">
+					<lang code="en">
+						During a faceoff, for each of your characters with this keyword
+						involved in that faceoff, the first time you flip a card with 1
+						power, you may ignore that card's power and flip a new card.
+					</lang>
+				</text>
+			</entry>
+			<entry id="showy"
+				   label="KeyShowy">
+				<text name="effect">
+					<lang code="en">
+						Opponents pay +<ref name="scale" /> action tokens to move
+						characters to this card's Problem.
+					</lang>
+				</text>
+			</entry>
+			<entry id="starting"
+				   label="KeyStart">
+				<text name="effect">
+					<lang code="en">
+						At the beginning of the game, you must choose a Problem with this
+						keyword to be your first Problem of the game.
+					</lang>
+				</text>
+			</entry>
+			<entry id="stubborn"
+				   label="KeyStubb">
+				<text name="effect">
+					<lang code="en">
+						This card can still apply its power during faceoffs and the Score
+						Phase even if exhausted.
+					</lang>
+				</text>
+			</entry>
+			<entry id="studious"
+				   label="KeyStudy">
+				<text name="effect">
+					<lang code="en">
+						When you win a faceoff, if you have at least one character with this
+						keyword involved in that faceoff, gain an action token.
+					</lang>
+				</text>
+			</entry>
+			<entry id="supportive"
+				   label="KeySupp">
+				<text name="effect">
+					<lang code="en">
+						+<ref name="scale" /> power while at a Problem with your Mane
+						Character that shares a color with this card.
+					</lang>
+				</text>
+			</entry>
+			<entry id="swift"
+				   label="KeySwift">
+				<text name="effect">
+					<lang code="en">
+						The main phase Move action costs 1 less action token for this
+						character.
+					</lang>
+				</text>
+			</entry>
+			<entry id="teamwork"
+				   label="KeyTeam">
+				<text name="effect">
+					<lang code="en">
+						Your other Friends here that share a Trait with this card also have
+						its other printed abilities.
+					</lang>
+				</text>
+			</entry>
+			<entry id="vexing"
+				   label="KeyVex">
+				<text name="effect">
+					<lang code="en">
+						If an opponent would confront this card's Problem, you may retire
+						this card instead.
+					</lang>
+				</text>
+			</entry>
+			<entry id="villain"
+				   label="KeyVill">
+				<text name="effect">
+					<lang code="en">
+						When this Troublemaker is uncovered, Frighten each Friend at its
+						Problem.
+					</lang>
+				</text>
+			</entry>
+		</field>
+
+		<!-- Home limit -->
+		<int id="hlimit"
+			 label="Home" />
+
+		<!-- Traits -->
+		<field id="trait"
+			   sort="group_label"
+			   visibility="filterOnly"
+			   label="Trait">
+			<data>
+				<bool id="primary">
+					<default>false</default>
+				</bool>
+			</data>
+			<group label="TraitGroupMult">
+				<entry id="chaotic"
+					   label="TraitChaos" />
+				<entry id="ponytone"
+					   label="TraitTone" />
+				<entry id="unique"
+					   label="TraitUniq" />
+			</group>
+			<group label="TraitGroupChar">
+				<entry id="alicorn"
+					   label="TraitAlic" />
+				<entry id="ally"
+					   label="TraitAlly" />
+				<entry id="breezie"
+					   label="TraitBreezie" />
+				<entry id="buffalo"
+					   label="TraitBuff" />
+				<entry id="changeling"
+					   label="TraitChange" />
+				<entry id="cow"
+					   label="TraitCow" />
+				<entry id="critter"
+					   label="TraitCritter" />
+				<entry id="crystal"
+					   label="TraitCrys" />
+				<entry id="donkey"
+					   label="TraitDonk" />
+				<entry id="draconequus"
+					   label="TraitDrac" />
+				<entry id="dragon"
+					   label="TraitDragon" />
+				<entry id="griffon"
+					   label="TraitGriff" />
+				<entry id="earth"
+					   label="TraitEarth" />
+				<entry id="elder"
+					   label="TraitElder" />
+				<entry id="foal"
+					   label="TraitFoal" />
+				<entry id="minotaur"
+					   label="TraitMino" />
+				<entry id="pegasus"
+					   label="TraitPeg" />
+				<entry id="performer"
+					   label="TraitPerf" />
+				<entry id="powerpony"
+					   label="TraitPower" />
+				<entry id="rock"
+					   label="TraitRock" />
+				<entry id="royalty"
+					   label="TraitRoyal" />
+				<entry id="serpent"
+					   label="TraitSerp" />
+				<entry id="siren"
+					   label="TraitSiren" />
+				<entry id="tree"
+					   label="TraitTree" />
+				<entry id="unicorn"
+					   label="TraitUnicorn" />
+				<entry id="yak"
+					   label="TraitYak" />
+				<entry id="zebra"
+					   label="TraitZebra" />
+			</group>
+			<group label="TraitGroupEvent">
+				<entry id="gotcha"
+					   label="TraitGotcha" />
+				<entry id="showdown"
+					   label="TraitSDown" />
+				<entry id="song"
+					   label="TraitSong" />
+			</group>
+			<group label="TraitGroupRes">
+				<entry id="accessory"
+					   label="TraitAcc" />
+				<entry id="armor"
+					   label="TraitArmor" />
+				<entry id="artifact"
+					   label="TraitArtif" />
+				<entry id="asset"
+					   label="TraitAsset" />
+				<entry id="condition"
+					   label="TraitCond" />
+				<entry id="location"
+					   label="TraitLoc" />
+				<entry id="mailbox"
+					   label="TraitMail" />
+				<entry id="report"
+					   label="TraitRep" />
+			</group>
+			<group label="TraitGroupTroub">
+				<entry id="epic"
+					   label="TraitEpic" />
+			</group>
+		</field>
+
+		<!-- Flavor text -->
+		<text id="flavor"
+			  visibility="none"
+			  label="Flavor" />
+
+	</data>
+
+
+	<!-- Card types -->
+	<common allowDoubleSided="true">
+		<index>
+			<decorator name="line"
+					   data="short" />
+			<int name="number" />
+			<decorator name="set"
+					   data="short" />
+		</index>
+		<data>
+			<field name="set" />
+			<field name="line" />
+			<int name="number" />
+			<field name="rarity" />
+		</data>
+	</common>
+
+	<card id="mane"
+		  label="CardMane">
+		<data>
+			<text name="title" />
+			<bool name="legal" />
+			<field name="color" />
+			<field name="side" />
+			<int name="power" />
+			<text name="effect">
+				<min>0</min>
+				<max>unbounded</max>
+			</text>
+			<field name="keyword">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<int name="hlimit">
+				<!-- The GenCon cards don't have this info -->
+				<min>0</min>
+			</int>
+			<field name="trait">
+				<max>unbounded</max>
+			</field>
+			<text name="flavor" />
+		</data>
+	</card>
+
+	<card id="friend"
+		  label="CardFriend">
+		<data>
+			<text name="title" />
+			<bool name="legal" />
+			<field name="color">
+				<max>2</max>
+			</field>
+			<int name="power" />
+			<int name="cost">
+				<min>0</min>
+			</int>
+			<int name="req">
+				<min>0</min>
+				<max>2</max>
+			</int>
+			<text name="effect">
+				<min>0</min>
+				<max>unbounded</max>
+			</text>
+			<field name="keyword">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<field name="trait">
+				<max>unbounded</max>
+			</field>
+			<text name="flavor" />
+		</data>
+	</card>
+
+	<card id="event"
+		  label="CardEvent">
+		<data>
+			<text name="title" />
+			<bool name="legal" />
+			<int name="power" />
+			<int name="cost" />
+			<int name="req">
+				<min>0</min>
+				<max>2</max>
+			</int>
+			<text name="effect">
+				<min>0</min>
+				<max>unbounded</max>
+			</text>
+			<field name="keyword">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<field name="trait">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<text name="flavor" />
+		</data>
+	</card>
+
+	<card id="resource"
+		  label="CardRes">
+		<data>
+			<text name="title" />
+			<bool name="legal" />
+			<int name="power" />
+			<int name="cost" />
+			<int name="req">
+				<min>0</min>
+				<max>2</max>
+			</int>
+			<field name="location">
+				<min>0</min>
+			</field>
+			<text name="effect">
+				<max>unbounded</max>
+			</text>
+			<field name="keyword">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<field name="trait">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<text name="flavor" />
+		</data>
+		<type id="dilemma"
+			  label="CardResDilem">
+			<data>
+				<int name="points" />
+				<int name="confront">
+					<max>2</max>
+				</int>
+				<int name="oppose" />
+			</data>
+		</type>
+	</card>
+
+	<card id="troublemaker"
+		  label="CardTroub">
+		<data>
+			<text name="title" />
+			<bool name="legal" />
+			<int name="power" />
+			<text name="effect">
+				<max>unbounded</max>
+			</text>
+			<int name="points" />
+			<field name="keyword">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<field name="trait">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<text name="flavor" />
+		</data>
+	</card>
+
+	<card id="problem"
+		  label="CardProb">
+		<data>
+			<text name="title" />
+			<bool name="legal" />
+			<text name="effect">
+				<min>0</min>
+				<max>unbounded</max>
+			</text>
+			<int name="points" />
+			<int name="confront">
+				<max>2</max>
+			</int>
+			<int name="oppose" />
+			<field name="keyword">
+				<min>0</min>
+				<max>unbounded</max>
+			</field>
+			<text name="flavor" />
+		</data>
+	</card>
+
+</game>

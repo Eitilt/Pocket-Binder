@@ -1,0 +1,1574 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="com.gmail.ag-eitilt.pocketbinder.definition.game"
+		   xmlns:tns      ="com.gmail.ag-eitilt.pocketbinder.definition.game"
+		   elementFormDefault="qualified"
+		   attributeFormDefault="unqualified">
+	<!-- Likely due to historical reasons, any top-level attributes here require
+       the namespace be specified on each occurrence in implementing files, so
+       to maintain a consistent behaviour, the qualified name is required for
+       all elements and attributes in this schema. -->
+
+	<xs:element name="game">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The expected root element of a game definition, containing all the
+				data used in describing its cards.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="data">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:group ref="tns:dataTopDefs" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:group ref="tns:cardDefs" />
+			</xs:sequence>
+			<xs:attributeGroup ref="tns:idWrap">
+				<!--<xs:annotation>
+					<xs:documentation xml:lang="en">
+						The ID to use for this game across all definitions of cards,
+						display elements, upgrades, and so on.
+					</xs:documentation>
+				</xs:annotation>-->
+			</xs:attributeGroup>
+			<xs:attribute name="label"
+						type="tns:labelType">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Link to a value in the associated .resx file.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+		<xs:key name="dataKey">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Provide a means of referring to arbitrary data points for, e.g.
+					referencing them from other &lt;field&gt;s.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:selector xpath="tns:data/*" />
+			<!-- BUG: If the default namespace != the tns, this will match that as well 
+			          and so could interfere with the constraints -->
+			<xs:field xpath="@tns:id | @id" />
+		</xs:key>
+	</xs:element>
+
+
+	<!-- Supporting attributes and types -->
+
+	<xs:attributeGroup name="idWrap">
+		<xs:attribute name="id"
+					  type="xs:NCName"
+					  use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Intended for use in contexts where a given value may only be used a
+					single time, such as data point definitions.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="nameWrap">
+		<xs:attribute name="name"
+					  type="xs:NCName"
+					  use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Intended for use when a tag needs an identifier, but it doesn't need
+					to be unique or should reference another tag's "id" attribute.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	<xs:attributeGroup name="codeWrap">
+		<xs:attribute name="code"
+					  type="xs:language"
+					  use="required">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					The IETF language code for a translation.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+	
+	<xs:simpleType name="labelType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The allowed values for &lt;label&gt; elements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NCName" />
+	</xs:simpleType>
+
+
+	<xs:complexType name="localized">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Composed of a list of strings, in multiple languages. If the system
+				locale is not included in the list (and can't be simplified to one
+				that is; e.g. en-US -> en), the first value is used.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="lang"
+						maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						The string translated into the specified language.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attributeGroup ref="tns:codeWrap" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<!-- Value element definitions -->
+	<xs:group name="valueData">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Wrap the element to disambiguate from other &lt;data&gt; tags.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="data">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Allow more complexity in top-level &lt;field&gt;s by
+						supporting subordinate data points.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:choice maxOccurs="unbounded">
+							<xs:group ref="tns:dataFieldDefs" />
+							<xs:element name="ref">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">
+										Provide a link to a top-level data point, for
+										use in &lt;text&gt; field variables.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="tns:dataFieldDefType">
+											<xs:sequence>
+												<xs:element name="default"
+															type="xs:string"
+															minOccurs="0">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">
+															The value to use if an item doesn't give one
+															itself.
+
+															Required if the "scope" attribute is
+															"application" or if not all &lt;entry&gt;s
+															explicitly specify the value. Note, however,
+															that the schema won't raise an error if it
+															doesn't appear; nor will it complain if the
+															value is not valid for the referenced element.
+														</xs:documentation>
+													</xs:annotation>
+												</xs:element>
+											</xs:sequence>
+											<xs:attributeGroup ref="tns:nameWrap" />
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:keyref name="fieldReferenceKeyRef"
+						   refer="tns:dataKey">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							All &lt;ref&gt; tags should properly point to some
+							top-level data point.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:selector xpath="tns:ref" />
+					<xs:field xpath="@tns:name | @name" />
+				</xs:keyref>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="dataTopDefs">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Gather the tags defining data points, with specifications to aid
+				inclusion as direct children of the root &lt;game&gt; node.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0"
+					   maxOccurs="unbounded">
+				<xs:element name="bool">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Defines a data point that accepts a true/false value.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="tns:dataTopDefType">
+								<xs:sequence>
+									<xs:element name="default"
+												type="tns:dataBool"
+												minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												The value to use if an item doesn't give one itself.
+											</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="color">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Defines a data point that accepts a value that can be translated
+							into a color.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="tns:dataTopDefType">
+								<xs:sequence>
+									<xs:element name="default"
+												type="tns:dataColor"
+												minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												The value to use if an item doesn't give one itself.
+											</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="decorator">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Defines a data point that accepts short, non-localized,
+							alphabetical strings.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="tns:dataTopDefType">
+								<xs:sequence>
+									<xs:element name="default"
+												type="tns:dataDecorator"
+												minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												The value to use if an item doesn't give one itself.
+											</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="int">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Defines a data point that accepts 32-bit signed integers.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="tns:dataTopDefType">
+								<xs:sequence>
+									<xs:element name="default"
+												type="tns:dataInt"
+												minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												The value to use if an item doesn't give one itself.
+											</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="resx">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Defines a data point that accepts references to strings in the
+							localized resource files.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="tns:dataTopDefType">
+								<xs:sequence>
+									<xs:element name="default"
+												type="tns:dataResx"
+												minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												The value to use if an item doesn't give one itself.
+											</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="text">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Defines a data point that accepts (optionally localized) text.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="tns:dataTopDefType">
+								<xs:sequence>
+									<xs:element name="default"
+												type="tns:dataText"
+												minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												The value to use if an item doesn't give one itself.
+											</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attributeGroup ref="tns:dataTextAttrs" />
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="field">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Defines a data point that accepts values from a restricted list.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="tns:dataTopDefType">
+								<xs:sequence>
+									<xs:element name="default"
+												type="xs:NCName"
+												minOccurs="0">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												The value to use if an item doesn't give one itself.
+											</xs:documentation>
+										</xs:annotation>
+										<xs:keyref name="dataTopDefaultEntryKeyRef"
+												   refer="tns:fieldTopEntryKey">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">
+													Ensure that the default value is a valid entry.
+												</xs:documentation>
+											</xs:annotation>
+											<xs:selector xpath="." />
+											<xs:field xpath="." />
+										</xs:keyref>
+									</xs:element>
+									<xs:choice minOccurs="0"
+											   maxOccurs="unbounded">
+										<xs:element name="entry"
+													type="tns:entryType" />
+										<xs:element name="group">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">
+													Segment the entries into easier-to-navigate groups.
+												</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="entry"
+																type="tns:entryType"
+																maxOccurs="unbounded" />
+												</xs:sequence>
+												<xs:attribute name="label"
+															  type="tns:labelType">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">
+															Link to a value in the associated .resx file.
+														</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="alias">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">
+													Sort and filter an entry as if it were another; its true
+													value will only be shown in custom views.
+												</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:attributeGroup ref="tns:nameWrap" />
+												<xs:attribute name="as"
+															  type="xs:NCName"
+															  use="required">
+													<xs:annotation>
+														<xs:documentation xml:lang="en">
+															The entry that the "ailasee" should act as.
+														</xs:documentation>
+													</xs:annotation>
+												</xs:attribute>
+											</xs:complexType>
+											<xs:keyref name="fieldEntryAliasName"
+													   refer="tns:fieldTopEntryKey">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">
+														Ensure the entry we're aliasing actually exists.
+													</xs:documentation>
+												</xs:annotation>
+												<xs:selector xpath="." />
+												<xs:field xpath="@tns:name | @name" />
+											</xs:keyref>
+											<xs:keyref name="fieldEntryAliasRef"
+													   refer="tns:fieldTopEntryKey">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">
+														Ensure the entry we're aliasing *to* actually exists.
+													</xs:documentation>
+												</xs:annotation>
+												<xs:selector xpath="." />
+												<xs:field xpath="@tns:as | @as" />
+											</xs:keyref>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+								<xs:attribute name="sort"
+											  default="label">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											The degree to which the entries in this &lt;field&gt;
+											should be automatically ordered.
+
+											Has no effect if the "visibility" attribute is "none".
+										</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="ordered">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">
+														Leave the entries in the order in which they were
+														defined.
+													</xs:documentation>
+												</xs:annotation>
+											</xs:enumeration>
+											<xs:enumeration value="group_label">
+												<xs:annotation>
+													<xs:documentation>
+														Retain the definition order of the groups, but
+														alphabetize the localized labels within them.
+
+														If there are no groups defined, this value has the
+														same effect as "label".
+													</xs:documentation>
+												</xs:annotation>
+											</xs:enumeration>
+											<xs:enumeration value="label">
+												<xs:annotation>
+													<xs:documentation xml:lang="en">
+														Reorder all members of this field to alphabetize
+														their labels, according to the localization.
+													</xs:documentation>
+												</xs:annotation>
+											</xs:enumeration>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+					<xs:key name="fieldDataKey">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">
+								Every sub-value in the enum should have a unique referent. As
+								sub-values can only ever be assigned within &lt;entry&gt;s or
+								from other definition files, we can get away with putting this
+								in &lt;field&gt; rather than applying it to all data points.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:selector xpath="tns:data/*" />
+						<xs:field xpath="@tns:id | @id" />
+					</xs:key>
+					<xs:key name="fieldTopEntryKey">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">
+								Every entry in the enum should have a unique referent.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:selector xpath=".//tns:entry" />
+						<xs:field xpath="@tns:id | @id" />
+					</xs:key>
+					<xs:keyref name="dataKeyRef"
+							   refer="tns:fieldDataKey">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">
+								Ensure that all references to other values correctly match one
+								defined in the &lt;field&gt;'s &lt;data&gt; section.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:selector xpath="tns:entry/*" />
+						<xs:field xpath="@tns:name | @name" />
+					</xs:keyref>
+					<xs:unique name="uniqueDataValues">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">
+								As all elements in &lt;entry&gt; level besides the &lt;label&gt;
+								are for assigning values to named data points, so make sure that
+								each value is only assigned once.
+							</xs:documentation>
+						</xs:annotation>
+						<xs:selector xpath="*" />
+						<xs:field xpath="@tns:name | @name" />
+					</xs:unique>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="dataFieldDefs">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Gather the tags defining data points, with specifications to aid
+				inclusion within top-level &lt;field&gt; enums.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="bool">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Defines a data point that accepts a true/false value.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:dataFieldDefType">
+							<xs:sequence>
+								<xs:element name="default"
+											type="tns:dataBool"
+											minOccurs="0">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											The value to use if an item doesn't give one itself.
+
+											Required if the "scope" attribute is "application" or if
+											not all &lt;entry&gt;s explicitly specify the value.
+											Note, however, that the schema won't raise an error if
+											it doesn't appear.
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="color">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Defines a data point that accepts a value that can be translated
+						into a color.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:dataFieldDefType">
+							<xs:sequence>
+								<xs:element name="default"
+											type="tns:dataColor"
+											minOccurs="0">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											The value to use if an item doesn't give one itself.
+
+											Required if the "scope" attribute is "application" or if
+											not all &lt;entry&gt;s explicitly specify the value.
+											Note, however, that the schema won't raise an error if
+											it doesn't appear.
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="decorator">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Defines a data point that accepts short, non-localized,
+						alphabetical strings.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:dataFieldDefType">
+							<xs:sequence>
+								<xs:element name="default"
+											type="tns:dataDecorator"
+											minOccurs="0">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											The value to use if an item doesn't give one itself.
+
+											Required if the "scope" attribute is "application" or if
+											not all &lt;entry&gt;s explicitly specify the value.
+											Note, however, that the schema won't raise an error if
+											it doesn't appear.
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="int">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Defines a data point that accepts 32-bit signed integers.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:dataFieldDefType">
+							<xs:sequence>
+								<xs:element name="default"
+											type="tns:dataInt"
+											minOccurs="0">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											The value to use if an item doesn't give one itself.
+
+											Required if the "scope" attribute is "application" or if
+											not all &lt;entry&gt;s explicitly specify the value.
+											Note, however, that the schema won't raise an error if
+											it doesn't appear.
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="resx">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Defines a data point that accepts references to strings in the
+						localized resource files.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:dataFieldDefType">
+							<xs:sequence>
+								<xs:element name="default"
+											type="tns:dataResx"
+											minOccurs="0">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											The value to use if an item doesn't give one itself.
+
+											Required if the "scope" attribute is "application" or if
+											not all &lt;entry&gt;s explicitly specify the value.
+											Note, however, that the schema won't raise an error if
+											it doesn't appear.
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="text">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Defines a data point that accepts (optionally localized) text.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:dataFieldDefType">
+							<xs:sequence>
+								<xs:element name="default"
+											type="tns:dataText"
+											minOccurs="0">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											The value to use if an item doesn't give one itself.
+
+											Required if the "scope" attribute is "application" or if
+											not all &lt;entry&gt;s explicitly specify the value.
+											Note, however, that the schema won't raise an error if
+											it doesn't appear.
+										</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+							<xs:attributeGroup ref="tns:dataTextAttrs" />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="field">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Defines a data point that accepts values from a restricted list.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:dataFieldDefType">
+							<xs:sequence>
+								<xs:element name="default"
+											type="xs:NCName"
+											minOccurs="0">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											The value to use if an item doesn't give one itself.
+										</xs:documentation>
+									</xs:annotation>
+									<xs:keyref name="dataFieldDefaultEntryKeyRef"
+											   refer="tns:fieldInnerEntryKey">
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												Ensure that the default value is a valid entry.
+											</xs:documentation>
+										</xs:annotation>
+										<xs:selector xpath="." />
+										<xs:field xpath="." />
+									</xs:keyref>
+								</xs:element>
+								<xs:element name="entry"
+											maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:annotation>
+											<xs:documentation xml:lang="en">
+												A particular case in an enclosing &lt;field&gt; enum.
+											</xs:documentation>
+										</xs:annotation>
+										<xs:attribute name="label"
+													  type="tns:labelType">
+											<xs:annotation>
+												<xs:documentation xml:lang="en">
+													Link to a value in the associated .resx file.
+												</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attributeGroup ref="tns:idWrap" />
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+				<xs:key name="fieldInnerEntryKey">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Every entry in the enum should have a unique referent.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:selector xpath="tns:entry" />
+					<xs:field xpath="@tns:id | @id" />
+				</xs:key>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+
+
+	<xs:attributeGroup name="dataTextAttrs">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Attributes shared between top- and field-level &lt;text&gt; elements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="formatted"
+					  type="xs:boolean"
+					  default="false">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Indicates whether the values should be formatted according
+					to the Markdown standard (default:false).
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+
+	<xs:complexType name="dataDefType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				An axis of data that may be used to sort and filter the cards.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="tns:idWrap" />
+	</xs:complexType>
+
+	<xs:complexType name="dataTopDefType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				A specification of data point definitions for top-level use.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:dataDefType">
+				<xs:sequence>
+					<xs:group ref="tns:valueData"
+							  minOccurs="0" />
+				</xs:sequence>
+				<xs:attribute name="label"
+							  type="tns:labelType">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Link to a value in the associated .resx file.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="visibility"
+							  default="full">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Specify whether this data point and its values should appear in
+							the options to sort and/or filter the card list (default:full).
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="none">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">
+										This data point should only be shown when included in a
+										custom view.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="filterOnly">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">
+										Disable sorting cards along this data axis.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="sortOnly">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">
+										Disable searching and filtering the card list using the
+										values of this data point.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="full">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">
+										Allow this data axis to be used in all methods of list
+										management.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="dataFieldDefType">
+		<xs:complexContent>
+			<xs:extension base="tns:dataDefType">
+				<xs:attribute name="scope"
+							  default="application">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Whether or not cards should provide the value of this element
+							themselves, or whether that is tied to their choice of
+							&lt;entry&gt;.
+
+							Note that even if the scope is "application", each &lt;entry&gt;
+							may still provide a value; that value is then used as default
+							over that provided in the element definition.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="definition">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">
+										The value is assigned at the time of definition (in this
+										file).
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="application">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">
+										The value is attached to cards individually.
+									</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="entryType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				A particular case in an enclosing &lt;field&gt; enum.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="tns:dataValues"
+					  minOccurs="0"
+					  maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attributeGroup ref="tns:idWrap" />
+		<xs:attribute name="label"
+					  type="tns:labelType">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Link to a value in the associated .resx file.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+
+	<!-- Value element assignments -->
+	<xs:group name="dataValues">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Elements used to assign values to data points within &lt;field&gt;s.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="bool">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Assigns a true/false value to the named data point.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="tns:dataBool">
+							<xs:attributeGroup ref="tns:nameWrap" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="color">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Assigns a color value to the named data point.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="tns:dataColor">
+							<xs:attributeGroup ref="tns:nameWrap" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="decorator">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Assigns a decoration string to the named data point.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="tns:dataDecorator">
+							<xs:attributeGroup ref="tns:nameWrap" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="int">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Assigns an integer to the named data point.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="tns:dataInt">
+							<xs:attributeGroup ref="tns:nameWrap" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="resx">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Assigns a localized string reference to the named data point.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="tns:dataResx">
+							<xs:attributeGroup ref="tns:nameWrap" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="text">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Assigns localized text to the named data point.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="tns:dataText">
+							<xs:attributeGroup ref="tns:nameWrap" />
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+				<xs:unique name="uniqueDataLocalizations">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							The localization algorithm would get confused by multiple
+							entries with the same language code, so prevent that.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:selector xpath="tns:lang" />
+					<xs:field xpath="@tns:code | @code" />
+				</xs:unique>
+			</xs:element>
+			<xs:element name="field">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Assigns a particular entry to the named data point.
+
+						Note that, due to limitations in the schema language, errors in
+						naming the desired &lt;entry&gt; will not trigger a warning.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:NCName">
+							<xs:attributeGroup ref="tns:nameWrap" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+
+
+	<xs:simpleType name="dataBool">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The allowed values for &lt;bool&gt; data.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:boolean" />
+	</xs:simpleType>
+
+	<xs:simpleType name="dataColor">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The allowed values for &lt;color&gt; data.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Empty string representing a null value.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:pattern>
+			<xs:pattern value="(#|0x)[0-9a-fA-F]{6}">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						An RGB color code, encoded in hexadecimal.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="dataDecorator">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The allowed values for &lt;decorator&gt; data.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse" />
+			<xs:pattern value="">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Empty string representing a null value.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:pattern>
+			<xs:pattern value="[a-zA-Z]{0,2}">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						A decorator, such as on the card number to create a unique ID.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="dataInt">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The allowed values for &lt;int&gt; data.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int" />
+	</xs:simpleType>
+
+	<xs:simpleType name="dataResx">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The allowed values for &lt;resx&gt; data.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NCName" />
+	</xs:simpleType>
+
+	<xs:complexType name="dataText">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The allowed tags for &lt;text&gt; data.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="lang"
+						minOccurs="0"
+						maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						The string translated into the specified language.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType mixed="true">
+					<xs:sequence>
+						<xs:element name="ref"
+									minOccurs="0"
+									maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									Insert the printed value of the specified data point at the
+									time when the text is printed.
+								</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+							<xs:attributeGroup ref="tns:nameWrap" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="tns:codeWrap" />
+				</xs:complexType>
+				<xs:keyref name="textVarKeyRef"
+						   refer="tns:fieldDataKey">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Ensure that references properly point to a data point (in the
+							&lt;data&gt; tag).
+						</xs:documentation>
+					</xs:annotation>
+					<xs:selector xpath="tns:ref" />
+					<xs:field xpath="@tns:name | @name" />
+				</xs:keyref>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<!-- Card type definitions -->
+	<xs:group name="cardData">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Wrap the element to disambiguate from other &lt;data&gt; tags.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="data">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Wrap the referenced data points together.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref="tns:cardDataRefs"
+								  maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+				<xs:keyref name="cardDataKeyRef"
+						   refer="tns:dataKey">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Ensure that all the data links in card type definitions actually
+							point to a value.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:selector xpath="tns:data/*" />
+					<xs:field xpath="@tns:name | @name" />
+				</xs:keyref>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="cardDefs">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Elements grouping the data points into concrete card definitions.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="common">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Any data common to all cards that is tied specifically to a
+						particular printing; as a rule of thumb, if a card was reprinted
+						later, what data would be different (discounting errata)?
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="index">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									Provide a static referent to a particular card to ensure the
+									right one is selected even from a database with a different
+									entry order.
+
+									Note that the combination of values is expected to be unique
+									but that constraint not checked before parsing; nor are the
+									sub-data names checked to actually exist.
+								</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:group ref="tns:cardIndexRefs"
+											  maxOccurs="unbounded" />
+								</xs:sequence>
+							</xs:complexType>
+							<xs:keyref name="cardCommonKeyRef"
+									   refer="tns:cardCommonKey">
+								<xs:annotation>
+									<xs:documentation xml:lang="en">
+										Ensure that all data points used in the index are included
+										in the common card data.
+									</xs:documentation>
+								</xs:annotation>
+								<xs:selector xpath="*" />
+								<xs:field xpath="@tns:name | @name" />
+							</xs:keyref>
+						</xs:element>
+						<xs:group ref="tns:cardData" />
+					</xs:sequence>
+					<!-- TODO: Fix
+					<xs:attribute ref="tns:id"
+								  fixed="_internal_common" />-->
+					<xs:attribute name="allowDoubleSided"
+								  type="xs:boolean"
+								  default="false">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">
+								Whether any card in the game prints data on both sides,
+								especially if both sides contain enough overlap that
+								they can't be consolidated into a single list.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+				<xs:key name="cardCommonKey">
+					<xs:annotation>
+						<xs:documentation xml:lang="en">
+							Ensure that each data point is only referenced once; multiple
+							occurrences of a field, for instance, should be handled via a
+							&lt;max&gt; tag.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:selector xpath="tns:data/*" />
+					<xs:field xpath="@tns:name | @name" />
+				</xs:key>
+			</xs:element>
+			<xs:element name="card"
+						minOccurs="0"
+						maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Gather the data points that describe a particular type of card.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:group ref="tns:cardData" />
+						<xs:element name="type"
+									minOccurs="0"
+									maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation xml:lang="en">
+									A subtype of this card class, categorized alongside it but
+									able to be filtered separately.
+
+									Note that any data points withing the &lt;type&gt;
+									definition are specific to it, but that everything at the
+									primary &lt;card&gt; level will also apply to subtypes.
+								</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:group ref="tns:cardData" />
+								</xs:sequence>
+								<xs:attributeGroup ref="tns:idWrap" />
+								<xs:attribute name="label"
+											  type="tns:labelType">
+									<xs:annotation>
+										<xs:documentation xml:lang="en">
+											Link to a value in the associated .resx file.
+										</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attributeGroup ref="tns:idWrap" />
+					<xs:attribute name="label"
+								  type="tns:labelType">
+						<xs:annotation>
+							<xs:documentation xml:lang="en">
+								Link to a value in the associated .resx file.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="cardDataRefs">
+		<xs:choice>
+			<xs:element name="bool"
+						type="tns:cardValue">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Link a true/false data point to this type of card.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="color"
+						type="tns:cardValue">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Link a color data point to this type of card.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="decorator"
+						type="tns:cardValue">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Link a decorator data point to this type of card.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="int"
+						type="tns:cardValue">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Link an integer data point to this type of card.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="resx"
+						type="tns:cardValue">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Link a localized string reference data point to this type of card.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="text"
+						type="tns:cardValue">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Link a text data point to this type of card.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="field"
+						type="tns:cardValue">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Link a field data point to this type of card.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+
+	<xs:group name="cardIndexRefs">
+		<xs:choice>
+			<xs:element name="bool"
+						type="tns:cardIndexRef">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Reference a true/false data point in the card's index.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="color"
+						type="tns:cardIndexRef">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Reference a color data point in the card's index.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="decorator"
+						type="tns:cardIndexRef">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Reference a decorator data point in the card's index.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="int"
+						type="tns:cardIndexRef">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						Reference an integer data point in the card's index.
+
+						Note that the schema does not verify that the named point is of
+						the correct type.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
+
+
+	<xs:simpleType name="unbounded">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="unbounded" />
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:complexType name="cardIndexRef">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Provide a reference to a linked data point or its sub-data.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attributeGroup ref="tns:nameWrap" />
+		<xs:attribute name="data"
+					  type="xs:NCName">
+			<xs:annotation>
+				<xs:documentation xml:lang="en">
+					Reference a value from the &lt;data&gt; block of the main reference.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="cardValue">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				Defines metadata describing how the named data point occurs.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="min"
+						type="xs:unsignedInt"
+						default="1"
+						minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						The minimum number of times this data point may be included.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="max"
+						default="1"
+						minOccurs="0">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						The maximum number of times this data point may be included.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:union memberTypes="xs:unsignedInt tns:unbounded" />
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="tns:nameWrap" />
+	</xs:complexType>
+
+</xs:schema>
