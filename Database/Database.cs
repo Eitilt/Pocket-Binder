@@ -5,7 +5,7 @@ namespace Database {
 	/// <summary>
 	/// Encapsulates database-management code dependant on the underlying platform.
 	/// </summary>
-	interface ILocalDatabaseHelper {
+	abstract class LocalDatabaseHelper {
 		/// <summary>
 		/// Retrieves the file path of the given database, specific to the system.
 		/// </summary>
@@ -17,7 +17,24 @@ namespace Database {
 		/// The underlying filename of the database, without any path or extension.
 		/// </param>
 		/// <returns>The complete file path of the database.</returns>
-		string GetLocalDatabasePath(string name);
+		public abstract string GetLocalDatabasePath(string name);
+
+		/// <summary>
+		/// Decorates the database name with the local path as long as it's not
+		/// intended to be saved in-memory, in which case <paramref name="name"/>
+		/// is simply returned unchanged.
+		/// </summary>
+		/// <param name="name">
+		/// The underlying filename of the database, without any path or extension.
+		/// </param>
+		/// <returns>The complete file path of the database.</returns>
+		/// <seealso cref="GetLocalDatabasePath(string)"/>
+		public static string MemoryOrLocalPath(string name) {
+			if (name.Equals(":memory:") || name.StartsWith("file::memory:") || name.Contains("mode=memory"))
+				return name;
+			else
+				return DependencyService.Get<LocalDatabaseHelper>().GetLocalDatabasePath(name);
+		}
 	}
 
 	/// <summary>
@@ -33,9 +50,10 @@ namespace Database {
 		/// <param name="name">
 		/// The underlying filename of the database, without any path or extension.
 		/// </param>
-		/// <seealso cref="ILocalDatabaseHelper.GetLocalDatabasePath(string)"/>
+		/// <seealso cref="LocalDatabaseHelper.MemoryOrLocalPath(string)"/>
 		public LocalDatabase(string name)
 			: this(name, (SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create)) { }
+
 		/// <summary>
 		/// Opens a SQLite database at a system path generated from the given name.
 		/// </summary>
@@ -45,9 +63,9 @@ namespace Database {
 		/// <param name="openFlags">
 		/// Bit array specifying the nature of the opened connection.
 		/// </param>
-		/// <seealso cref="ILocalDatabaseHelper.GetLocalDatabasePath(string)"/>
+		/// <seealso cref="LocalDatabaseHelper.MemoryOrLocalPath(string)"/>
 		public LocalDatabase(string name, SQLiteOpenFlags openFlags)
-			: base(DependencyService.Get<ILocalDatabaseHelper>().GetLocalDatabasePath(name), openFlags, true) { }
+			: base(LocalDatabaseHelper.MemoryOrLocalPath(name), openFlags, true) { }
 	}
 
 	/// <summary>
@@ -63,9 +81,10 @@ namespace Database {
 		/// <param name="name">
 		/// The underlying filename of the database, without any path or extension.
 		/// </param>
-		/// <seealso cref="ILocalDatabaseHelper.GetLocalDatabasePath(string)"/>
+		/// <seealso cref="LocalDatabaseHelper.MemoryOrLocalPath(string)"/>
 		public LocalDatabaseAsync(string name)
 			: this(name, (SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create)) { }
+
 		/// <summary>
 		/// Opens a SQLite database at a system path generated from the given name.
 		/// </summary>
@@ -75,8 +94,8 @@ namespace Database {
 		/// <param name="openFlags">
 		/// Bit array specifying the nature of the opened connection.
 		/// </param>
-		/// <seealso cref="ILocalDatabaseHelper.GetLocalDatabasePath(string)"/>
+		/// <seealso cref="LocalDatabaseHelper.MemoryOrLocalPath(string)"/>
 		public LocalDatabaseAsync(string name, SQLiteOpenFlags openFlags)
-			: base(DependencyService.Get<ILocalDatabaseHelper>().GetLocalDatabasePath(name), openFlags, true) { }
+			: base(LocalDatabaseHelper.MemoryOrLocalPath(name), openFlags, true) { }
 	}
 }

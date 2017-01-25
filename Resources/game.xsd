@@ -36,10 +36,23 @@
 				</xs:annotation>-->
 			</xs:attributeGroup>
 			<xs:attribute name="label"
-						type="tns:labelType">
+						  type="tns:labelType">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
 						Link to a value in the associated .resx file.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="version"
+						  type="xs:positiveInteger"
+						  use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						The game definition version, to ensure the proper structure
+						while reading cards.
+						
+						Each change to the definition should only ever increment the
+						version number.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
