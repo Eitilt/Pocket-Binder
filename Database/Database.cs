@@ -5,7 +5,7 @@ namespace Database {
 	/// <summary>
 	/// Encapsulates database-management code dependant on the underlying platform.
 	/// </summary>
-	abstract class LocalDatabaseHelper {
+	public abstract class LocalDatabaseHelper {
 		/// <summary>
 		/// Retrieves the file path of the given database, specific to the system.
 		/// </summary>
@@ -42,7 +42,7 @@ namespace Database {
 	/// selection to platform-specific code.
 	/// </summary>
 	/// <seealso cref="LocalDatabaseAsync"/>
-	class LocalDatabase : SQLiteConnection {
+	public class LocalDatabase : SQLiteConnection {
 		/// <summary>
 		/// Opens or creates a SQLite database at a system path generated from the
 		/// given name.
@@ -73,7 +73,7 @@ namespace Database {
 	/// background and delegating file path selection to platform-specific code.
 	/// </summary>
 	/// <seealso cref="LocalDatabase"/>
-	class LocalDatabaseAsync : SQLiteAsyncConnection {
+	public class LocalDatabaseAsync : SQLiteAsyncConnection {
 		/// <summary>
 		/// Opens or creates a SQLite database at a system path generated from the
 		/// given name.

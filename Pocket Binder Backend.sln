@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mlp", "mlp", "{906FEA8A-768
 		Resources\Games\mlp\mlp.xml = Resources\Games\mlp\mlp.xml
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test", "Test\Test.fsproj", "{7CB38383-2F0E-453E-B757-0CC3A7790F4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CB38383-2F0E-453E-B757-0CC3A7790F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CB38383-2F0E-453E-B757-0CC3A7790F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CB38383-2F0E-453E-B757-0CC3A7790F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CB38383-2F0E-453E-B757-0CC3A7790F4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
