@@ -44,7 +44,7 @@
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="version"
-						  type="xs:positiveInteger"
+						  type="xs:decimal"
 						  use="required">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
@@ -53,6 +53,15 @@
 						
 						Each change to the definition should only ever increment the
 						version number.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="schema"
+						  type="xs:decimal"
+						  use="required">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">
+						The version of the schema used to define the game.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
