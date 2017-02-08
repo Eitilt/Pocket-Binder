@@ -5,7 +5,7 @@
 open FsCheck
 
 [<EntryPoint>]
-let main argv = 
+let main argv =
     Check.QuickAll<Database.Test.LocalDatabaseHelper>()
 
     System.Console.WriteLine "Press any key to close"
