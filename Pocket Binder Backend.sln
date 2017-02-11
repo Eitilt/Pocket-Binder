@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schema", "Schema", "{667EA4
 		Resources\game.1.0.xsd = Resources\game.1.0.xsd
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Defintions", "Defintions\Defintions.fsproj", "{AC52859B-D731-484D-9DC0-8B1829F4B53B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{7CB38383-2F0E-453E-B757-0CC3A7790F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CB38383-2F0E-453E-B757-0CC3A7790F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CB38383-2F0E-453E-B757-0CC3A7790F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC52859B-D731-484D-9DC0-8B1829F4B53B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC52859B-D731-484D-9DC0-8B1829F4B53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC52859B-D731-484D-9DC0-8B1829F4B53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC52859B-D731-484D-9DC0-8B1829F4B53B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1132,18 +1132,20 @@
 			<xs:whiteSpace value="collapse" />
 			<xs:pattern value="">
 				<xs:annotation>
+					<!-- TODO: Document why this is useful -->
 					<xs:documentation xml:lang="en">
 						Empty string representing a null value.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:pattern>
-			<xs:pattern value="(#|0x)[0-9a-fA-F]{6}">
+			<xs:pattern value="(#|0x)([0-9a-fA-F]{3}|[0-9a-fA-F]{6})">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
 						An RGB color code, encoded in hexadecimal.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:pattern>
+			<!-- TODO: Add named colors, and potentially HSV -->
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -1162,7 +1164,7 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:pattern>
-			<xs:pattern value="[a-zA-Z]{0,2}">
+			<xs:pattern value="[a-zA-Z]*">
 				<xs:annotation>
 					<xs:documentation xml:lang="en">
 						A decorator, such as on the card number to create a unique ID.

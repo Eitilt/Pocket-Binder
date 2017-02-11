@@ -2,6 +2,7 @@
 <game xmlns="com.gmail.ag-eitilt.pocketbinder.definition.game"
 	  id="mlp"
 	  version="1"
+	  schema="1.0"
 	  label="GameTitle">
 	<!-- TODO: Create/download icons -->
 	<!-- TODO: Add errata and banlist -->

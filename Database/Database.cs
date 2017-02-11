@@ -1,10 +1,12 @@
 ﻿using SQLite;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Test")]
+
 namespace Database {
 	/// <summary>
 	/// Encapsulates database-management code dependant on the underlying platform.
 	/// </summary>
-	public partial class DatabasePathHelper {
+	partial class DatabasePathHelper {
 		/// <summary>
 		/// Given a base filename, decorate it according to a platform-dependent
 		/// database path.
